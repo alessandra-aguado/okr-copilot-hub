@@ -31,7 +31,7 @@ const ChatInterface = () => {
 
       {/* Main Input - Central Focus with Apple-style shadow */}
       <div className="w-full max-w-2xl">
-        <div className="bg-white rounded-2xl shadow-apple-input border-2 border-transparent bg-gradient-to-r from-[#00D6C4] to-[#0180E7] p-[2px]">
+        <div className="bg-white rounded-2xl shadow-soft border border-transparent bg-gradient-to-r from-[#00D6C4] to-[#0180E7] p-[1px]">
           <div className="bg-white rounded-2xl">
             <div className="flex items-center p-3">
               <Button
