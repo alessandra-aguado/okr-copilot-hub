@@ -51,20 +51,39 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   return (
     <div className="flex flex-col h-full bg-sidebar-bg transition-all duration-300 ease-in-out">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
-        <div className="flex items-center justify-center w-full">
-          <div className="w-[24px] h-[24px] bg-[#0078D4] rounded-full flex items-center justify-center">
-            <Target className="h-3.5 w-3.5 text-white" />
+      <div className="flex items-center p-4 border-b border-sidebar-border">
+        {isCollapsed ? (
+          <div className="flex items-center justify-between w-full">
+            <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <Target className="h-3.5 w-3.5 text-white" />
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggle}
+              className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover ml-2"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
           </div>
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggle}
-          className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
-        >
-          <Menu className="h-3.5 w-3.5" />
-        </Button>
+        ) : (
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                <Target className="h-3.5 w-3.5 text-white" />
+              </div>
+              <span className="ml-3 font-semibold text-sidebar-text">OKR Consultant</span>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggle}
+              className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* New OKR Button */}
@@ -127,9 +146,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         )}
                         asChild
                       >
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
-                        </NavLink>
+                         <NavLink to={item.url}>
+                           <item.icon className="h-5 w-5" />
+                         </NavLink>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="right">
@@ -162,9 +181,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <Wrench className="h-4 w-4" />
-                  </Button>
+                   <Button variant="sidebar" size="icon" className="w-full h-10">
+                     <Wrench className="h-5 w-5" />
+                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <p>Recursos</p>
@@ -227,9 +246,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         )}
                         asChild
                       >
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
-                        </NavLink>
+                         <NavLink to={item.url}>
+                           <item.icon className="h-5 w-5" />
+                         </NavLink>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="right">
