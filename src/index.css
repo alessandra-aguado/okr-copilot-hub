@@ -58,14 +58,14 @@
     --radius-card: 12px;
     --radius-pill: 9999px;
     
-    /* Sidebar Colors */
+    /* Sidebar Colors - Enhanced Contrast */
     --sidebar-bg: 0 0% 100%;
     --sidebar-border: 0 0% 87%;
-    --sidebar-text: 0 0% 13%;
-    --sidebar-text-muted: 0 0% 40%;
-    --sidebar-hover: 0 0% 94%;
-    --sidebar-active: 213 93% 42%;
-    --sidebar-active-bg: 213 93% 97%;
+    --sidebar-text: 220 9% 20%; /* Much darker for better contrast */
+    --sidebar-text-muted: 220 9% 40%; /* Improved from 40% to 40% but with saturation */
+    --sidebar-hover: 220 13% 94%;
+    --sidebar-active: 210 100% 47%;
+    --sidebar-active-bg: 210 100% 95%;
     
     /* Standard system colors for compatibility */
     --background: 0 0% 100%;
@@ -183,6 +183,10 @@
   .shadow-apple {
     box-shadow: var(--shadow-apple);
   }
+
+  .shadow-apple-input {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
   
   /* Apple-style Micro-interactions */
   .hover-scale {
@@ -255,15 +259,16 @@
   }
   
   .sidebar-collapsed {
-    width: 80px;
+    width: 72px;
   }
   
   .main-content {
     margin-left: 260px;
-    transition: margin-left 0.3s ease;
+    transition: margin-left var(--transition-smooth);
+    min-height: 100vh;
   }
   
   .main-content-collapsed {
-    margin-left: 80px;
+    margin-left: 72px;
   }
 }

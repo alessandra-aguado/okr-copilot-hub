@@ -52,18 +52,23 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
-          <div className="flex items-center space-2">
+          <div className="flex items-center space-x-2">
             <Target className="h-6 w-6 text-primary" />
             <span className="font-semibold text-lg text-sidebar-text">OKR Consultant</span>
+          </div>
+        )}
+        {isCollapsed && (
+          <div className="flex items-center justify-center w-full">
+            <Target className="h-6 w-6 text-primary" />
           </div>
         )}
         <Button
           variant="ghost"
           size="icon"
           onClick={onToggle}
-          className="h-8 w-8 text-sidebar-text-muted hover:text-sidebar-text"
+          className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
         >
-          {isCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
+          {isCollapsed ? <Menu className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </Button>
       </div>
 
@@ -95,14 +100,14 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               key={item.title}
               variant="sidebar"
               className={cn(
-                "w-full",
-                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active"
+                "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
               )}
               asChild
             >
               <NavLink to={item.url}>
-                <item.icon className="h-4 w-4" />
-                {!isCollapsed && <span className="ml-3">{item.title}</span>}
+                <item.icon className="h-4 w-4 shrink-0" />
+                {!isCollapsed && <span className="ml-3 truncate">{item.title}</span>}
               </NavLink>
             </Button>
           ))}
@@ -156,14 +161,14 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               key={item.title}
               variant="sidebar"
               className={cn(
-                "w-full",
-                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active"
+                "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
               )}
               asChild
             >
               <NavLink to={item.url}>
-                <item.icon className="h-4 w-4" />
-                {!isCollapsed && <span className="ml-3">{item.title}</span>}
+                <item.icon className="h-4 w-4 shrink-0" />
+                {!isCollapsed && <span className="ml-3 truncate">{item.title}</span>}
               </NavLink>
             </Button>
           ))}

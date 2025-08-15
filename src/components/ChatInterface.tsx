@@ -21,14 +21,14 @@ const ChatInterface = () => {
         <h1 className="text-adaptive-title text-primary tracking-tight">
           ¿Qué OKR deseas trabajar hoy?
         </h1>
-        <p className="text-adaptive-subtitle text-secondary">
+        <p className="text-adaptive-subtitle" style={{ color: '#666666' }}>
           Define, alinea y mide.
         </p>
       </div>
 
-      {/* Main Input - Central Focus */}
+      {/* Main Input - Central Focus with Apple-style shadow */}
       <div className="w-full max-w-2xl">
-        <div className="card-float shadow-apple">
+        <div className="bg-white rounded-2xl shadow-apple-input">
           <div className="flex items-center p-3">
             <Button
               variant="ghost"
@@ -70,8 +70,8 @@ const ChatInterface = () => {
         ))}
       </div>
 
-      {/* Quick Action Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 pt-8">
+      {/* Quick Action Buttons - Moved below suggestions */}
+      <div className="flex flex-wrap justify-center gap-4">
         <Button 
           variant="outline" 
           className="shadow-apple hover-scale"
