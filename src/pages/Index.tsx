@@ -8,18 +8,20 @@ const Index = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-bg-secondary flex">
-      {/* Sidebar */}
-      <AppSidebar 
-        isCollapsed={sidebarCollapsed} 
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
-      />
+    <div className="min-h-screen bg-bg-secondary">
+      {/* Fixed Sidebar */}
+      <div className={`sidebar-fixed ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        <AppSidebar 
+          isCollapsed={sidebarCollapsed} 
+          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+        />
+      </div>
       
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className={`main-content ${sidebarCollapsed ? 'main-content-collapsed' : ''}`}>
         <Header />
         
-        <main className="flex-1 flex items-center justify-center py-16 bg-bg-primary">
+        <main className="flex-1 flex items-center justify-center py-16 bg-bg-primary min-h-screen">
           <ChatInterface />
         </main>
         

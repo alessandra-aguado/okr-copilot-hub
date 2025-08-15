@@ -4,14 +4,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* OKR Consultant Design System */
+/* OKR Consultant Apple-Style Design System */
 
 @layer base {
   :root {
-    /* Apple-style Brand Colors */
-    --primary-blue: 213 93% 42%;
+    /* Apple-style Brand Colors - Enhanced Contrast */
+    --primary-blue: 221 100% 50%;
     --teal-accent: 179 100% 39%;
     --indigo-accent: 231 48% 48%;
+    
+    /* Apple Color Tokens */
+    --text-primary: 220 9% 11%;
+    --text-secondary: 0 0% 40%;
+    --bg-light: 240 11% 97%;
+    --bg-white: 0 0% 100%;
+    --apple-blue: 221 100% 50%;
     
     /* Background Colors */
     --bg-primary: 0 0% 100%;
@@ -34,11 +41,13 @@
     --gradient-header: linear-gradient(90deg, hsl(var(--teal-accent)), hsl(var(--indigo-accent)));
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary-blue)), hsl(var(--indigo-accent)));
     
-    /* Apple-style Shadows */
+    /* Apple-style Shadows - Enhanced */
     --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.04);
-    --shadow-input: 0 2px 6px rgba(0, 0, 0, 0.06);
-    --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.08);
-    --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --shadow-input: 0 8px 24px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.08);
+    --shadow-float: 0 16px 40px rgba(0, 0, 0, 0.12);
+    --shadow-apple: 0 8px 24px rgba(0, 0, 0, 0.05);
+    --shadow-focus: 0 0 0 4px rgba(0, 102, 255, 0.15);
     
     /* 8pt Grid System & Animation */
     --spacing-1: 8px;
@@ -132,6 +141,19 @@
 }
 
 @layer components {
+  /* Apple-style Typography */
+  .text-adaptive-title {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .text-adaptive-subtitle {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  
   /* Apple-style Gradients */
   .gradient-header {
     background: var(--gradient-header);
@@ -156,6 +178,23 @@
   
   .shadow-float {
     box-shadow: var(--shadow-float);
+  }
+  
+  .shadow-apple {
+    box-shadow: var(--shadow-apple);
+  }
+  
+  /* Apple-style Micro-interactions */
+  .hover-scale {
+    transition: transform 0.2s ease;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+  
+  .focus-apple:focus {
+    box-shadow: var(--shadow-focus);
   }
   
   /* Transitions */
@@ -193,12 +232,38 @@
     gap: var(--spacing-4);
   }
   
-  /* Floating Cards */
+  /* Floating Cards - Apple Style */
   .card-float {
-    @apply bg-white shadow-card rounded-xl border border-border-card transition-smooth;
+    @apply bg-white shadow-apple rounded-xl border border-border-card transition-smooth hover-scale;
   }
   
   .card-float:hover {
     @apply shadow-hover;
+  }
+  
+  /* Fixed Sidebar Layout */
+  .sidebar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: hsl(var(--bg-white));
+    border-right: 1px solid hsl(var(--border-light));
+    z-index: 50;
+  }
+  
+  .sidebar-collapsed {
+    width: 80px;
+  }
+  
+  .main-content {
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .main-content-collapsed {
+    margin-left: 80px;
   }
 }

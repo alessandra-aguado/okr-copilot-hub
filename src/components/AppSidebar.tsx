@@ -48,10 +48,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   ];
 
   return (
-    <div className={cn(
-      "flex flex-col h-full bg-sidebar-bg border-r border-sidebar-border transition-smooth",
-      isCollapsed ? "w-20" : "w-64"
-    )}>
+    <div className="flex flex-col h-full bg-sidebar-bg transition-smooth">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
