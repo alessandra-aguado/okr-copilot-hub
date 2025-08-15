@@ -48,17 +48,13 @@ const AppSidebar = ({
     url: "/help",
     icon: HelpIcon
   }, {
-    title: "Actividad",
-    url: "/activity",
-    icon: ActivityIcon
-  }, {
     title: "Ajustes",
     url: "/settings",
     icon: SettingsIcon
   }];
-  return <div className="flex flex-col h-full bg-sidebar-bg transition-all duration-300 ease-in-out">
+   return <div className="flex flex-col h-full bg-sidebar-bg transition-all duration-300 ease-in-out" style={{ width: isCollapsed ? '56px' : '192px' }}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
+      <div className="flex items-center justify-between p-4">
         <div className="flex items-center justify-center w-full">
           {/* Logo space reserved for isotipo */}
         </div>
@@ -68,28 +64,28 @@ const AppSidebar = ({
       </div>
 
       {/* New OKR Button */}
-      <div className="p-4">
+      <div className="px-4 pb-4">
         {isCollapsed ? <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-md hover:from-[#00c0b0] hover:to-[#0060c7] transition-all cursor-pointer">
-                  <PlusIcon size={16} />
+                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all cursor-pointer shadow-lg">
+                  <PlusIcon size={20} />
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right">
                 <p>Nuevo OKR</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider> : <NavLink to="/new" className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-md hover:from-[#00c0b0] hover:to-[#0060c7] transition-all">
-            <PlusIcon size={16} />
-            <span className="text-sm font-medium">Nuevo OKR</span>
+          </TooltipProvider> : <NavLink to="/new" className="flex items-center justify-center gap-2 w-40 h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all shadow-lg">
+            <PlusIcon size={20} />
+            <span className="text-sm font-bold">Nuevo OKR</span>
           </NavLink>}
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 px-3 space-y-1">
+      <div className="flex-1 px-3">
         {/* Main Navigation */}
-        <div className="space-y-1 mb-6">
+        <div className="space-y-3 mb-7">
           {!isCollapsed && <h3 className="sidebar-section-title">
               Principal
             </h3>}
@@ -113,7 +109,7 @@ const AppSidebar = ({
         </div>
 
         {/* Resources Section */}
-        <div className="space-y-1 mb-6">
+        <div className="space-y-3 mb-7">
           {isCollapsed ? <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -133,7 +129,7 @@ const AppSidebar = ({
                   <ChevronDownIcon size={20} className={cn("ml-auto transition-transform text-[#404040]", isToolsOpen && "rotate-180")} />
                 </div>
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 ml-4">
+              <CollapsibleContent className="space-y-3 ml-4">
                 {resourcesItems.map(item => <NavLink key={item.title} to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
                     <item.icon size={20} className="text-[#404040]" />
                     <span className="text-sm font-medium text-[#404040]">{item.title}</span>
@@ -143,7 +139,7 @@ const AppSidebar = ({
         </div>
 
         {/* Settings Section */}
-        <div className="space-y-1">
+        <div className="space-y-3">
           {!isCollapsed && <h3 className="sidebar-section-title">
               Configuración
             </h3>}

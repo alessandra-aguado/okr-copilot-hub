@@ -31,42 +31,44 @@ const ChatInterface = () => {
 
       {/* Main Input - Central Focus with Apple-style shadow */}
       <div className="w-full max-w-2xl">
-        <div className="bg-white rounded-2xl shadow-apple-input">
-          <div className="flex items-center p-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full h-8 w-8 hover:bg-hover-surface hover-scale"
-              style={{ color: '#999999' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
-            >
-              <SmallPlusIcon size={20} />
-            </Button>
-            
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Describe tu objetivo o pregunta sobre OKRs..."
-              className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-8 focus-apple"
-              style={{ 
-                color: '#1C1C1E',
-                fontSize: '14px',
-                fontFamily: 'Open Sans',
-                fontWeight: '400'
-              }}
-            />
-            
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full h-8 w-8 hover:bg-hover-surface hover-scale"
-              style={{ color: '#999999' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
-            >
-              {inputValue ? <SendIcon size={20} /> : <MicrophoneIcon size={20} />}
-            </Button>
+        <div className="bg-white rounded-2xl shadow-apple-input border-2 border-transparent bg-gradient-to-r from-[#00D6C4] to-[#0180E7] p-[2px]">
+          <div className="bg-white rounded-2xl">
+            <div className="flex items-center p-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale flex items-center justify-center"
+                style={{ color: '#999999' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
+              >
+                <SmallPlusIcon size={20} />
+              </Button>
+              
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Describe tu objetivo o pregunta sobre OKRs..."
+                className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-10 focus-apple"
+                style={{ 
+                  color: '#1C1C1E',
+                  fontSize: '14px',
+                  fontFamily: 'Open Sans',
+                  fontWeight: '400'
+                }}
+              />
+              
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale flex items-center justify-center"
+                style={{ color: '#999999' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
+              >
+                {inputValue ? <SendIcon size={20} /> : <MicrophoneIcon size={20} />}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
