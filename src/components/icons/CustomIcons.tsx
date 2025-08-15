@@ -1,12 +1,13 @@
 // Custom SVG Icons - 16px outline icons
 interface IconProps {
+  size?: number;
   className?: string;
 }
 
-export const PlusIcon = ({ className }: IconProps) => (
+export const PlusIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -19,10 +20,10 @@ export const PlusIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const TargetIcon = ({ className }: IconProps) => (
+export const TargetIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -31,16 +32,16 @@ export const TargetIcon = ({ className }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="8" cy="8" r="7" />
-    <circle cx="8" cy="8" r="4" />
+    <circle cx="8" cy="8" r="6" />
+    <circle cx="8" cy="8" r="3" />
     <circle cx="8" cy="8" r="1" />
   </svg>
 );
 
-export const ListIcon = ({ className }: IconProps) => (
+export const ListIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -56,10 +57,10 @@ export const ListIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const HistoryIcon = ({ className }: IconProps) => (
+export const HistoryIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -68,16 +69,16 @@ export const HistoryIcon = ({ className }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="8" cy="8" r="7" />
+    <circle cx="8" cy="8" r="6" />
     <path d="M8 4v4l3 2" />
     <path d="M2 8a6 6 0 0 1 9-5.2" />
   </svg>
 );
 
-export const BookIcon = ({ className }: IconProps) => (
+export const BookIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -92,10 +93,10 @@ export const BookIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const HelpIcon = ({ className }: IconProps) => (
+export const HelpIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -104,16 +105,16 @@ export const HelpIcon = ({ className }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="8" cy="8" r="7" />
+    <circle cx="8" cy="8" r="6" />
     <path d="M6 6a2 2 0 0 1 4 0c0 1-2 1.5-2 2.5" />
     <circle cx="8" cy="11.5" r="0.5" fill="currentColor" />
   </svg>
 );
 
-export const ActivityIcon = ({ className }: IconProps) => (
+export const ActivityIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -126,10 +127,10 @@ export const ActivityIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const SettingsIcon = ({ className }: IconProps) => (
+export const SettingsIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -138,7 +139,7 @@ export const SettingsIcon = ({ className }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="8" cy="8" r="3" />
+    <circle cx="8" cy="8" r="2.5" />
     <path d="M13.5 8a5.5 5.5 0 0 0-.4-2l-1.5.9a3.5 3.5 0 0 1 0 2.2l1.5.9a5.5 5.5 0 0 0 .4-2z" />
     <path d="M2.5 8a5.5 5.5 0 0 0 .4 2l1.5-.9a3.5 3.5 0 0 1 0-2.2L2.9 6a5.5 5.5 0 0 0-.4 2z" />
     <path d="M8 2.5a5.5 5.5 0 0 0-2 .4l.9 1.5a3.5 3.5 0 0 1 2.2 0L10 2.9a5.5 5.5 0 0 0-2-.4z" />
@@ -146,10 +147,10 @@ export const SettingsIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const ChevronDownIcon = ({ className }: IconProps) => (
+export const ChevronDownIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -162,10 +163,10 @@ export const ChevronDownIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const MenuIcon = ({ className }: IconProps) => (
+export const MenuIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -178,10 +179,10 @@ export const MenuIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const FileIcon = ({ className }: IconProps) => (
+export const FileIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"
@@ -195,10 +196,10 @@ export const FileIcon = ({ className }: IconProps) => (
   </svg>
 );
 
-export const FolderIcon = ({ className }: IconProps) => (
+export const FolderIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
-    width="16"
-    height="16"
+    width={size}
+    height={size}
     viewBox="0 0 16 16"
     fill="none"
     stroke="currentColor"

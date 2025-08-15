@@ -75,16 +75,11 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button 
-                  variant="pill" 
-                  size="icon"
-                  className="w-full h-10"
-                  asChild
-                >
-                  <NavLink to="/new">
-                    <PlusIcon className="h-3.5 w-3.5" />
+                <div className="flex items-center justify-center py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer">
+                  <NavLink to="/new" className="flex items-center justify-center">
+                    <PlusIcon size={16} className="text-[#404040]" />
                   </NavLink>
-                </Button>
+                </div>
               </TooltipTrigger>
               <TooltipContent side="right">
                 <p>Nuevo OKR</p>
@@ -92,16 +87,10 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             </Tooltip>
           </TooltipProvider>
         ) : (
-          <Button 
-            variant="pill" 
-            className="w-full justify-start space-2"
-            asChild
-          >
-            <NavLink to="/new">
-              <PlusIcon className="h-3.5 w-3.5" />
-              <span className="ml-2 sidebar-menu-item">Nuevo OKR</span>
-            </NavLink>
-          </Button>
+          <NavLink to="/new" className="flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md">
+            <PlusIcon size={16} className="text-[#404040]" />
+            <span className="text-sm font-medium text-[#404040]" style={{ fontFamily: 'Open Sans' }}>Nuevo OKR</span>
+          </NavLink>
         )}
       </div>
 
@@ -120,19 +109,14 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button
-                        variant="sidebar"
-                        size="icon"
-                        className={cn(
-                          "w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                          isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
-                        )}
-                        asChild
-                      >
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
+                      <div className={cn(
+                        "flex items-center justify-center py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer",
+                        isActive(item.url) && "bg-[#e6f3ff]"
+                      )}>
+                        <NavLink to={item.url} className="flex items-center justify-center">
+                          <item.icon size={16} className="text-[#404040]" />
                         </NavLink>
-                      </Button>
+                      </div>
                     </TooltipTrigger>
                     <TooltipContent side="right">
                       <p>{item.title}</p>
@@ -140,19 +124,16 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   </Tooltip>
                 </TooltipProvider>
               ) : (
-                <Button
-                  variant="sidebar"
+                <NavLink 
+                  to={item.url} 
                   className={cn(
-                    "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                    isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                    "flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md",
+                    isActive(item.url) && "bg-[#e6f3ff]"
                   )}
-                  asChild
                 >
-                  <NavLink to={item.url}>
-                    <item.icon className="h-4 w-4" />
-                    <span className="ml-2 truncate sidebar-menu-item">{item.title}</span>
-                  </NavLink>
-                </Button>
+                  <item.icon size={16} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]" style={{ fontFamily: 'Open Sans' }}>{item.title}</span>
+                </NavLink>
               )}
             </div>
           ))}
@@ -164,9 +145,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <BookIcon className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center justify-center py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer">
+                    <BookIcon size={16} className="text-[#404040]" />
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <p>Recursos</p>
@@ -176,31 +157,28 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           ) : (
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
-                <Button variant="sidebar" className="w-full">
-                  <BookIcon className="h-4 w-4" />
-                  <span className="ml-2 sidebar-tools-title">Recursos</span>
-                  <ChevronDownIcon className={cn(
-                    "h-3.5 w-3.5 ml-auto transition-transform",
+                <div className="flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer">
+                  <BookIcon size={16} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]" style={{ fontFamily: 'Open Sans' }}>Recursos</span>
+                  <ChevronDownIcon size={14} className={cn(
+                    "ml-auto transition-transform text-[#404040]",
                     isToolsOpen && "rotate-180"
                   )} />
-                </Button>
+                </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-1 ml-4">
                 {resourcesItems.map((item) => (
-                  <Button
+                  <NavLink
                     key={item.title}
-                    variant="sidebar"
+                    to={item.url}
                     className={cn(
-                      "w-full text-sm",
-                      isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active"
+                      "flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md",
+                      isActive(item.url) && "bg-[#e6f3ff]"
                     )}
-                    asChild
                   >
-                    <NavLink to={item.url}>
-                      <item.icon className="h-3.5 w-3.5" />
-                      <span className="ml-2 sidebar-submenu-item">{item.title}</span>
-                    </NavLink>
-                  </Button>
+                    <item.icon size={16} className="text-[#404040]" />
+                    <span className="text-sm font-medium text-[#404040]" style={{ fontFamily: 'Open Sans' }}>{item.title}</span>
+                  </NavLink>
                 ))}
               </CollapsibleContent>
             </Collapsible>
@@ -220,19 +198,14 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button
-                        variant="sidebar"
-                        size="icon"
-                        className={cn(
-                          "w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                          isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
-                        )}
-                        asChild
-                      >
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
+                      <div className={cn(
+                        "flex items-center justify-center py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer",
+                        isActive(item.url) && "bg-[#e6f3ff]"
+                      )}>
+                        <NavLink to={item.url} className="flex items-center justify-center">
+                          <item.icon size={16} className="text-[#404040]" />
                         </NavLink>
-                      </Button>
+                      </div>
                     </TooltipTrigger>
                     <TooltipContent side="right">
                       <p>{item.title}</p>
@@ -240,19 +213,16 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   </Tooltip>
                 </TooltipProvider>
               ) : (
-                <Button
-                  variant="sidebar"
+                <NavLink 
+                  to={item.url} 
                   className={cn(
-                    "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                    isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                    "flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md",
+                    isActive(item.url) && "bg-[#e6f3ff]"
                   )}
-                  asChild
                 >
-                  <NavLink to={item.url}>
-                    <item.icon className="h-4 w-4" />
-                    <span className="ml-2 truncate sidebar-menu-item">{item.title}</span>
-                  </NavLink>
-                </Button>
+                  <item.icon size={16} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]" style={{ fontFamily: 'Open Sans' }}>{item.title}</span>
+                </NavLink>
               )}
             </div>
           ))}
