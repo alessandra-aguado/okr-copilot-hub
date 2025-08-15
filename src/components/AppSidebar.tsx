@@ -2,15 +2,15 @@ import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { 
   Plus, 
-  FileText, 
+  CheckSquare, 
   Target, 
-  Folder, 
+  History, 
   Settings, 
   HelpCircle, 
-  BarChart3, 
+  Activity, 
   ChevronDown,
   Menu,
-  Wrench
+  BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -32,19 +32,19 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   
   const navigationItems = [
     { title: "Crear OKR", url: "/create", icon: Target },
-    { title: "Mis OKRs", url: "/active", icon: FileText },
-    { title: "Historial", url: "/history", icon: Folder },
+    { title: "Mis OKRs", url: "/active", icon: CheckSquare },
+    { title: "Historial", url: "/history", icon: History },
   ];
   
   const resourcesItems = [
     { title: "Guías prácticas", url: "/guides", icon: HelpCircle },
-    { title: "Plantillas de OKRs", url: "/templates", icon: FileText },
-    { title: "Importar desde CSV", url: "/import", icon: Folder },
+    { title: "Plantillas de OKRs", url: "/templates", icon: CheckSquare },
+    { title: "Importar desde CSV", url: "/import", icon: History },
   ];
   
   const settingsItems = [
     { title: "Ayuda", url: "/help", icon: HelpCircle },
-    { title: "Actividad", url: "/activity", icon: BarChart3 },
+    { title: "Actividad", url: "/activity", icon: Activity },
     { title: "Ajustes", url: "/settings", icon: Settings },
   ];
 
@@ -188,7 +188,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                    <Button variant="sidebar" size="icon" className="w-full h-10">
-                     <Wrench className="h-4 w-4" />
+                     <BookOpen className="h-4 w-4" />
                    </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
@@ -200,7 +200,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <Wrench className="h-4 w-4" />
+                  <BookOpen className="h-4 w-4" />
                   <span className="ml-2 sidebar-tools-title">Recursos</span>
                   <ChevronDown className={cn(
                     "h-4 w-4 ml-auto transition-transform",
