@@ -256,6 +256,7 @@
     background-color: hsl(var(--bg-white));
     border-right: 1px solid hsl(var(--border-light));
     z-index: 50;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .sidebar-collapsed {
@@ -264,7 +265,7 @@
   
   .main-content {
     margin-left: 300px;
-    transition: margin-left var(--transition-smooth);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-height: 100vh;
   }
   

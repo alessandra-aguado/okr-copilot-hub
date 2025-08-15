@@ -9,11 +9,12 @@ import {
   HelpCircle, 
   BarChart3, 
   ChevronDown,
-  Menu,
-  X
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 interface AppSidebarProps {
@@ -48,7 +49,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-sidebar-bg transition-smooth">
+    <div className="flex flex-col h-full bg-sidebar-bg transition-all duration-300 ease-in-out">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
@@ -72,22 +73,44 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           onClick={onToggle}
           className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
         >
-          {isCollapsed ? <Menu className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
 
       {/* New OKR Button */}
       <div className="p-4">
-        <Button 
-          variant="pill" 
-          className="w-full justify-start space-2"
-          asChild
-        >
-          <NavLink to="/new">
-            <Plus className="sidebar-icon" />
-            {!isCollapsed && <span className="sidebar-menu-item">Nuevo OKR</span>}
-          </NavLink>
-        </Button>
+        {isCollapsed ? (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="pill" 
+                  size="icon"
+                  className="w-full h-10"
+                  asChild
+                >
+                  <NavLink to="/new">
+                    <Plus className="sidebar-icon" />
+                  </NavLink>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>Nuevo OKR</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ) : (
+          <Button 
+            variant="pill" 
+            className="w-full justify-start space-2"
+            asChild
+          >
+            <NavLink to="/new">
+              <Plus className="sidebar-icon" />
+              <span className="sidebar-menu-item">Nuevo OKR</span>
+            </NavLink>
+          </Button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -100,26 +123,65 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             </h3>
           )}
           {navigationItems.map((item) => (
-            <Button
-              key={item.title}
-              variant="sidebar"
-              className={cn(
-                "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+            <div key={item.title}>
+              {isCollapsed ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="sidebar"
+                        size="icon"
+                        className={cn(
+                          "w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                          isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                        )}
+                        asChild
+                      >
+                        <NavLink to={item.url}>
+                          <item.icon className="sidebar-icon" />
+                        </NavLink>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p>{item.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Button
+                  variant="sidebar"
+                  className={cn(
+                    "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                    isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                  )}
+                  asChild
+                >
+                  <NavLink to={item.url}>
+                    <item.icon className="sidebar-icon" />
+                    <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
+                  </NavLink>
+                </Button>
               )}
-              asChild
-            >
-              <NavLink to={item.url}>
-                <item.icon className="sidebar-icon" />
-                {!isCollapsed && <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>}
-              </NavLink>
-            </Button>
+            </div>
           ))}
         </div>
 
         {/* Tools Section */}
         <div className="space-y-1 mb-6">
-          {!isCollapsed && (
+          {isCollapsed ? (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="sidebar" size="icon" className="w-full h-10">
+                    <Settings className="sidebar-icon" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>Herramientas OKR</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ) : (
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
@@ -161,20 +223,46 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             </h3>
           )}
           {settingsItems.map((item) => (
-            <Button
-              key={item.title}
-              variant="sidebar"
-              className={cn(
-                "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
-                isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+            <div key={item.title}>
+              {isCollapsed ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="sidebar"
+                        size="icon"
+                        className={cn(
+                          "w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                          isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                        )}
+                        asChild
+                      >
+                        <NavLink to={item.url}>
+                          <item.icon className="sidebar-icon" />
+                        </NavLink>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p>{item.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <Button
+                  variant="sidebar"
+                  className={cn(
+                    "w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active",
+                    isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold"
+                  )}
+                  asChild
+                >
+                  <NavLink to={item.url}>
+                    <item.icon className="sidebar-icon" />
+                    <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
+                  </NavLink>
+                </Button>
               )}
-              asChild
-            >
-              <NavLink to={item.url}>
-                <item.icon className="sidebar-icon" />
-                {!isCollapsed && <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>}
-              </NavLink>
-            </Button>
+            </div>
           ))}
         </div>
       </div>
