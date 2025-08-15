@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { 
-  Plus, 
-  FileText, 
-  Target, 
-  Folder, 
-  Settings, 
-  HelpCircle, 
-  BarChart3, 
-  ChevronDown,
-  Menu,
-  Wrench
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  PlusIcon,
+  TargetIcon,
+  ListIcon,
+  HistoryIcon,
+  BookIcon,
+  HelpIcon,
+  ActivityIcon,
+  SettingsIcon,
+  ChevronDownIcon,
+  MenuIcon,
+  FileIcon,
+  FolderIcon
+} from "@/components/icons/CustomIcons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -31,21 +33,21 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   const isActive = (path: string) => currentPath === path;
   
   const navigationItems = [
-    { title: "Crear OKR", url: "/create", icon: Target },
-    { title: "Mis OKRs", url: "/active", icon: FileText },
-    { title: "Historial", url: "/history", icon: Folder },
+    { title: "Crear OKR", url: "/create", icon: TargetIcon },
+    { title: "Mis OKRs", url: "/active", icon: ListIcon },
+    { title: "Historial", url: "/history", icon: HistoryIcon },
   ];
   
   const resourcesItems = [
-    { title: "Guías prácticas", url: "/guides", icon: HelpCircle },
-    { title: "Plantillas de OKRs", url: "/templates", icon: FileText },
-    { title: "Importar desde CSV", url: "/import", icon: Folder },
+    { title: "Guías prácticas", url: "/guides", icon: HelpIcon },
+    { title: "Plantillas de OKRs", url: "/templates", icon: FileIcon },
+    { title: "Importar desde CSV", url: "/import", icon: FolderIcon },
   ];
   
   const settingsItems = [
-    { title: "Ayuda", url: "/help", icon: HelpCircle },
-    { title: "Actividad", url: "/activity", icon: BarChart3 },
-    { title: "Ajustes", url: "/settings", icon: Settings },
+    { title: "Ayuda", url: "/help", icon: HelpIcon },
+    { title: "Actividad", url: "/activity", icon: ActivityIcon },
+    { title: "Ajustes", url: "/settings", icon: SettingsIcon },
   ];
 
   return (
@@ -54,7 +56,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-center w-full">
           <div className="w-[24px] h-[24px] bg-[#0078D4] rounded-full flex items-center justify-center">
-            <Target className="h-3.5 w-3.5 text-white" />
+            <TargetIcon className="h-3.5 w-3.5 text-white" />
           </div>
         </div>
         <Button
@@ -63,7 +65,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           onClick={onToggle}
           className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
         >
-          <Menu className="h-3.5 w-3.5" />
+          <MenuIcon className="h-3.5 w-3.5" />
         </Button>
       </div>
 
@@ -80,7 +82,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to="/new">
-                    <Plus className="h-3.5 w-3.5" />
+                    <PlusIcon className="h-3.5 w-3.5" />
                   </NavLink>
                 </Button>
               </TooltipTrigger>
@@ -96,7 +98,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             asChild
           >
             <NavLink to="/new">
-              <Plus className="h-3.5 w-3.5" />
+              <PlusIcon className="h-3.5 w-3.5" />
               <span className="ml-2 sidebar-menu-item">Nuevo OKR</span>
             </NavLink>
           </Button>
@@ -163,7 +165,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <Wrench className="h-4 w-4" />
+                    <BookIcon className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
@@ -175,9 +177,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <Wrench className="h-4 w-4" />
+                  <BookIcon className="h-4 w-4" />
                   <span className="ml-2 sidebar-tools-title">Recursos</span>
-                  <ChevronDown className={cn(
+                  <ChevronDownIcon className={cn(
                     "h-3.5 w-3.5 ml-auto transition-transform",
                     isToolsOpen && "rotate-180"
                   )} />
