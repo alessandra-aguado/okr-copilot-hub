@@ -8,7 +8,7 @@ const ChatInterface = () => {
   const [inputValue, setInputValue] = useState("");
 
   const suggestions = [
-    "Crear OKR trimestral",
+    "Crear OKR para mi unidad",
     "Alinear objetivos del equipo", 
     "Revisar progreso actual"
   ];
@@ -61,16 +61,15 @@ const ChatInterface = () => {
       </div>
       
       {/* Quick Suggestions - Below Input */}
-      <div className="flex flex-wrap justify-center gap-3 max-w-2xl">
+      <div className="botonera-okr">
         {suggestions.map((suggestion, index) => (
-          <Badge
+          <button
             key={index}
-            variant="secondary"
-            className="card-float cursor-pointer px-4 py-2 text-sm font-medium transition-smooth hover:shadow-hover hover-scale"
+            className="botonera-okr-button"
             onClick={() => setInputValue(suggestion)}
           >
             {suggestion}
-          </Badge>
+          </button>
         ))}
       </div>
 

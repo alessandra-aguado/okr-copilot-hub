@@ -30,7 +30,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   const isActive = (path: string) => currentPath === path;
   
   const navigationItems = [
-    { title: "Crear OKR trimestral", url: "/create", icon: Target },
+    { title: "Crear OKR para mi unidad", url: "/create", icon: Target },
     { title: "Mis OKRs activos", url: "/active", icon: FileText },
     { title: "Historial de OKRs", url: "/history", icon: Folder },
   ];
@@ -52,14 +52,18 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
-          <div className="flex items-center space-x-2">
-            <Target className="h-5 w-5 text-primary" />
-            <span className="font-semibold text-base text-sidebar-text">OKR Consultant</span>
+          <div className="flex items-center">
+            <div className="w-[18px] h-[18px] bg-[#0078D4] rounded-full flex items-center justify-center">
+              <Target className="h-3 w-3 text-white" />
+            </div>
+            <span className="sidebar-logo-text">OKR Consultant</span>
           </div>
         )}
         {isCollapsed && (
           <div className="flex items-center justify-center w-full">
-            <Target className="h-5 w-5 text-primary" />
+            <div className="w-[18px] h-[18px] bg-[#0078D4] rounded-full flex items-center justify-center">
+              <Target className="h-3 w-3 text-white" />
+            </div>
           </div>
         )}
         <Button
@@ -80,8 +84,8 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           asChild
         >
           <NavLink to="/new">
-            <Plus className="h-4 w-4" />
-            {!isCollapsed && <span>Nuevo OKR</span>}
+            <Plus className="sidebar-icon" />
+            {!isCollapsed && <span className="sidebar-menu-item">Nuevo OKR</span>}
           </NavLink>
         </Button>
       </div>
@@ -91,7 +95,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
         {/* Main Navigation */}
         <div className="space-y-1 mb-6">
           {!isCollapsed && (
-            <h3 className="px-3 text-xs font-semibold text-sidebar-text-muted uppercase tracking-wider mb-2">
+            <h3 className="sidebar-section-title">
               Principal
             </h3>
           )}
@@ -106,8 +110,8 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               asChild
             >
               <NavLink to={item.url}>
-                <item.icon className="h-4 w-4 shrink-0" />
-                {!isCollapsed && <span className="ml-3 truncate">{item.title}</span>}
+                <item.icon className="sidebar-icon" />
+                {!isCollapsed && <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>}
               </NavLink>
             </Button>
           ))}
@@ -119,10 +123,10 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <Settings className="h-4 w-4" />
-                  <span className="ml-3">Herramientas OKR</span>
+                  <Settings className="sidebar-icon" />
+                  <span className="ml-3 sidebar-tools-title">Herramientas OKR</span>
                   <ChevronDown className={cn(
-                    "h-4 w-4 ml-auto transition-transform",
+                    "sidebar-icon ml-auto transition-transform",
                     isToolsOpen && "rotate-180"
                   )} />
                 </Button>
@@ -139,8 +143,8 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                     asChild
                   >
                     <NavLink to={item.url}>
-                      <item.icon className="h-3 w-3" />
-                      <span className="ml-3">{item.title}</span>
+                      <item.icon className="sidebar-subicon" />
+                      <span className="ml-3 sidebar-submenu-item">{item.title}</span>
                     </NavLink>
                   </Button>
                 ))}
@@ -152,7 +156,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
         {/* Settings Section */}
         <div className="space-y-1">
           {!isCollapsed && (
-            <h3 className="px-3 text-xs font-semibold text-sidebar-text-muted uppercase tracking-wider mb-2">
+            <h3 className="sidebar-section-title">
               Configuración
             </h3>
           )}
@@ -167,23 +171,14 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               asChild
             >
               <NavLink to={item.url}>
-                <item.icon className="h-4 w-4 shrink-0" />
-                {!isCollapsed && <span className="ml-3 truncate">{item.title}</span>}
+                <item.icon className="sidebar-icon" />
+                {!isCollapsed && <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>}
               </NavLink>
             </Button>
           ))}
         </div>
       </div>
 
-      {/* Footer */}
-      {!isCollapsed && (
-        <div className="p-4 border-t border-sidebar-border">
-          <div className="flex items-center space-2">
-            <Target className="h-4 w-4 text-sidebar-text-muted" />
-            <span className="text-xs text-sidebar-text-muted">AI para resultados medibles</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

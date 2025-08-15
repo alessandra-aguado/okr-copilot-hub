@@ -7,9 +7,11 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-8 py-4">
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
-          <div className="flex items-center space-3">
-            <Target className="h-7 w-7 text-primary" />
-            <h1 className="text-xl font-semibold text-primary">
+          <div className="flex items-center">
+            <div className="w-[18px] h-[18px] bg-[#0078D4] rounded-full flex items-center justify-center">
+              <Target className="h-3 w-3 text-white" />
+            </div>
+            <h1 className="logo-text">
               OKR Consultant
             </h1>
           </div>
