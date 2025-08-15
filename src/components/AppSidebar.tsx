@@ -128,7 +128,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         asChild
                       >
                         <NavLink to={item.url}>
-                          <item.icon className="h-3 w-3" />
+                          <item.icon className="h-1.5 w-1.5" />
                         </NavLink>
                       </Button>
                     </TooltipTrigger>
@@ -147,7 +147,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to={item.url}>
-                    <item.icon className="h-3 w-3" />
+                    <item.icon className="h-1.5 w-1.5" />
                     <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
                   </NavLink>
                 </Button>
