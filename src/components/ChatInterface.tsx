@@ -16,12 +16,12 @@ const ChatInterface = () => {
   return (
     <div className="w-full max-w-4xl mx-auto px-8 flex flex-col items-center space-y-8">
       {/* Main Question - Apple Style */}
-      <div className="text-center space-y-4">
-        <Search className="h-12 w-12 text-primary mx-auto mb-6" />
+      <div className="text-center space-y-3">
+        <Search className="h-8 w-8 text-primary mx-auto mb-4" />
         <h1 className="text-adaptive-title text-primary tracking-tight">
           ¿Qué OKR deseas trabajar hoy?
         </h1>
-        <p className="text-adaptive-subtitle" style={{ color: '#666666' }}>
+        <p className="text-adaptive-subtitle text-secondary">
           Define, alinea y mide.
         </p>
       </div>
@@ -33,24 +33,28 @@ const ChatInterface = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-12 w-12 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
+              className="rounded-full h-10 w-10 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
             >
-              <Plus className="h-5 w-5" />
+              <Plus className="h-4 w-4" />
             </Button>
             
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Describe tu objetivo o pregunta sobre OKRs..."
-              className="flex-1 border-0 bg-transparent text-base lg:text-lg placeholder:text-muted focus-visible:ring-0 focus-visible:ring-offset-0 h-12 focus-apple"
+              className="flex-1 border-0 bg-transparent text-sm lg:text-base placeholder:text-placeholder focus-visible:ring-0 focus-visible:ring-offset-0 h-10 focus-apple"
+              style={{ 
+                color: '#1C1C1E',
+                fontSize: '16px'
+              }}
             />
             
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-12 w-12 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
+              className="rounded-full h-10 w-10 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
             >
-              {inputValue ? <Send className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+              {inputValue ? <Send className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </Button>
           </div>
         </div>
@@ -70,30 +74,6 @@ const ChatInterface = () => {
         ))}
       </div>
 
-      {/* Quick Action Buttons - Moved below suggestions */}
-      <div className="flex flex-wrap justify-center gap-4">
-        <Button 
-          variant="outline" 
-          className="shadow-apple hover-scale"
-          size="lg"
-        >
-          Crear OKR
-        </Button>
-        <Button 
-          variant="outline" 
-          className="shadow-apple hover-scale"
-          size="lg"
-        >
-          Alinear
-        </Button>
-        <Button 
-          variant="outline" 
-          className="shadow-apple hover-scale"
-          size="lg"
-        >
-          Revisar
-        </Button>
-      </div>
     </div>
   );
 };

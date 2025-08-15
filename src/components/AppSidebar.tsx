@@ -53,13 +53,13 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
-            <Target className="h-6 w-6 text-primary" />
-            <span className="font-semibold text-lg text-sidebar-text">OKR Consultant</span>
+            <Target className="h-5 w-5 text-primary" />
+            <span className="font-semibold text-base text-sidebar-text">OKR Consultant</span>
           </div>
         )}
         {isCollapsed && (
           <div className="flex items-center justify-center w-full">
-            <Target className="h-6 w-6 text-primary" />
+            <Target className="h-5 w-5 text-primary" />
           </div>
         )}
         <Button

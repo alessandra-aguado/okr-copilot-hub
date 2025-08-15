@@ -1,11 +1,11 @@
-import { useState } from "react";
 import Header from "@/components/Header";
 import ChatInterface from "@/components/ChatInterface";
 import Footer from "@/components/Footer";
 import AppSidebar from "@/components/AppSidebar";
+import { useSidebarState } from "@/hooks/useSidebarState";
 
 const Index = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { isCollapsed: sidebarCollapsed, toggle: toggleSidebar } = useSidebarState();
 
   return (
     <div className="min-h-screen bg-bg-secondary">
@@ -13,7 +13,7 @@ const Index = () => {
       <div className={`sidebar-fixed ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
         <AppSidebar 
           isCollapsed={sidebarCollapsed} 
-          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+          onToggle={toggleSidebar} 
         />
       </div>
       
