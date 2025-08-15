@@ -75,7 +75,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
         ) : (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-            <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-[16px] h-[16px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
               <Target className="h-4 w-4 text-white" />
             </div>
               <span className="ml-3 font-semibold text-sidebar-text">OKR Consultant</span>
