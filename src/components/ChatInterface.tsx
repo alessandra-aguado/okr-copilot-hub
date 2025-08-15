@@ -4,7 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { PlusIcon, MicrophoneIcon, SendIconWithBackground } from "@/components/icons/CustomIcons";
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+  onCreateOKR?: () => void;
+}
+
+const ChatInterface = ({ onCreateOKR }: ChatInterfaceProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const suggestions = [
@@ -79,7 +83,13 @@ const ChatInterface = () => {
           <button
             key={index}
             className="botonera-okr-button"
-            onClick={() => setInputValue(suggestion)}
+            onClick={() => {
+              if (suggestion === "Crear OKR para mi unidad" && onCreateOKR) {
+                onCreateOKR();
+              } else {
+                setInputValue(suggestion);
+              }
+            }}
           >
             {suggestion}
           </button>

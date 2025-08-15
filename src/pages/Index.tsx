@@ -1,10 +1,21 @@
 import Header from "@/components/Header";
 import ChatInterface from "@/components/ChatInterface";
+import OKRChatInterface from "@/components/OKRChatInterface";
 import AppSidebar from "@/components/AppSidebar";
 import { useSidebarState } from "@/hooks/useSidebarState";
+import { useState } from "react";
 
 const Index = () => {
   const { isCollapsed: sidebarCollapsed, toggle: toggleSidebar } = useSidebarState();
+  const [currentView, setCurrentView] = useState<'main' | 'okr'>('main');
+
+  const handleCreateOKR = () => {
+    setCurrentView('okr');
+  };
+
+  const handleBackToMain = () => {
+    setCurrentView('main');
+  };
 
   return (
     <div className="h-screen bg-bg-secondary overflow-hidden">
@@ -22,7 +33,19 @@ const Index = () => {
         
         <main className="flex-1 flex items-center justify-center bg-bg-primary">
           <div className="w-full max-w-[980px] mx-auto">
-            <ChatInterface />
+            {currentView === 'main' ? (
+              <ChatInterface onCreateOKR={handleCreateOKR} />
+            ) : (
+              <div className="space-y-4">
+                <button 
+                  onClick={handleBackToMain}
+                  className="text-sm text-gray-600 hover:text-gray-900 mb-4"
+                >
+                  ← Volver al inicio
+                </button>
+                <OKRChatInterface />
+              </div>
+            )}
           </div>
         </main>
       </div>
