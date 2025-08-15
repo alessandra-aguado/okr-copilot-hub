@@ -1,30 +1,30 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import ChatInterface from "@/components/ChatInterface";
 import Footer from "@/components/Footer";
-import okrPattern from "@/assets/okr-pattern.png";
+import AppSidebar from "@/components/AppSidebar";
 
 const Index = () => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   return (
-    <div 
-      className="min-h-screen gradient-brand flex flex-col relative overflow-hidden"
-      style={{
-        backgroundImage: `url(${okrPattern})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: 'overlay'
-      }}
-    >
-      {/* Subtle overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-black/10 pointer-events-none" />
+    <div className="min-h-screen bg-bg-secondary flex">
+      {/* Sidebar */}
+      <AppSidebar 
+        isCollapsed={sidebarCollapsed} 
+        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
+      />
       
-      <Header />
-      
-      <main className="flex-1 flex items-center justify-center py-12 relative z-10">
-        <ChatInterface />
-      </main>
-      
-      <Footer />
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        <Header />
+        
+        <main className="flex-1 flex items-center justify-center py-16 bg-bg-primary">
+          <ChatInterface />
+        </main>
+        
+        <Footer />
+      </div>
     </div>
   );
 };

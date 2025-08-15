@@ -22,6 +22,27 @@ export default {
 				'sans': ['Open Sans', 'sans-serif'],
 			},
 			colors: {
+				// Apple-style Design System Colors
+				'bg-primary': 'hsl(var(--bg-primary))',
+				'bg-secondary': 'hsl(var(--bg-secondary))',
+				'bg-card': 'hsl(var(--bg-card))',
+				'text-primary': 'hsl(var(--text-primary))',
+				'text-secondary': 'hsl(var(--text-secondary))',
+				'text-muted': 'hsl(var(--text-muted))',
+				'border-light': 'hsl(var(--border-light))',
+				'border-card': 'hsl(var(--border-card))',
+				'hover-surface': 'hsl(var(--hover-surface))',
+				
+				// Sidebar Colors
+				'sidebar-bg': 'hsl(var(--sidebar-bg))',
+				'sidebar-border': 'hsl(var(--sidebar-border))',
+				'sidebar-text': 'hsl(var(--sidebar-text))',
+				'sidebar-text-muted': 'hsl(var(--sidebar-text-muted))',
+				'sidebar-hover': 'hsl(var(--sidebar-hover))',
+				'sidebar-active': 'hsl(var(--sidebar-active))',
+				'sidebar-active-bg': 'hsl(var(--sidebar-active-bg))',
+				
+				// Standard system colors for compatibility
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -54,22 +75,26 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'card': '12px',
+				'pill': '9999px'
+			},
+			spacing: {
+				'1': 'var(--spacing-1)',
+				'2': 'var(--spacing-2)', 
+				'3': 'var(--spacing-3)',
+				'4': 'var(--spacing-4)'
+			},
+			boxShadow: {
+				'card': 'var(--shadow-card)',
+				'input': 'var(--shadow-input)',
+				'hover': 'var(--shadow-hover)',
+				'float': 'var(--shadow-float)'
 			},
 			keyframes: {
 				'accordion-down': {
