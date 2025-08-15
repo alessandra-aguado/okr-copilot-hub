@@ -418,7 +418,7 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
         return createConsultantMessage(conversationFlow[0].consultantResponse);
       }
       
-      // Step 1: User provides OKRs from superior unit (Attach)
+      // Step 2: User provides OKRs from superior unit (Attach)
       if (step === 1 && (normalizedMessage.includes("attach") || 
            normalizedMessage.includes("impulsar una evolución") ||
            normalizedMessage.includes("impulsar una evolución organizacional") ||
