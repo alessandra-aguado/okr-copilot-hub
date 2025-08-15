@@ -21,7 +21,11 @@ const ChatInterface = () => {
         <h1 className="text-adaptive-title text-primary tracking-tight">
           ¿Qué OKR deseas trabajar hoy?
         </h1>
-        <p className="text-adaptive-subtitle text-secondary">
+        <p className="text-adaptive-subtitle text-secondary" style={{ 
+          color: '#999999', 
+          fontSize: '16px',
+          marginTop: '8px' 
+        }}>
           Define, alinea y mide.
         </p>
       </div>
@@ -33,28 +37,36 @@ const ChatInterface = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-10 w-10 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
+              className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale"
+              style={{ color: '#999999' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-2.5 w-2.5" />
             </Button>
             
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Describe tu objetivo o pregunta sobre OKRs..."
-              className="flex-1 border-0 bg-transparent text-sm lg:text-base placeholder:text-placeholder focus-visible:ring-0 focus-visible:ring-offset-0 h-10 focus-apple"
+              className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-10 focus-apple"
               style={{ 
                 color: '#1C1C1E',
-                fontSize: '16px'
+                fontSize: '14px',
+                fontFamily: 'Open Sans',
+                fontWeight: '400'
               }}
             />
             
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-10 w-10 text-muted hover:text-primary hover:bg-hover-surface hover-scale"
+              className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale"
+              style={{ color: '#999999' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
             >
-              {inputValue ? <Send className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              {inputValue ? <Send className="h-2.5 w-2.5" /> : <Mic className="h-2.5 w-2.5" />}
             </Button>
           </div>
         </div>

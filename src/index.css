@@ -361,3 +361,11 @@
     background-color: #EDEDED;
   }
 }
+
+/* Input Styling */
+input::placeholder {
+  color: #666666 !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}

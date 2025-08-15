@@ -9,8 +9,8 @@ import {
   HelpCircle, 
   BarChart3, 
   ChevronDown,
-  ChevronLeft,
-  ChevronRight
+  Menu,
+  Wrench
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -31,12 +31,12 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   const isActive = (path: string) => currentPath === path;
   
   const navigationItems = [
-    { title: "Crear OKR para mi unidad", url: "/create", icon: Target },
-    { title: "Mis OKRs activos", url: "/active", icon: FileText },
-    { title: "Historial de OKRs", url: "/history", icon: Folder },
+    { title: "Crear OKR", url: "/create", icon: Target },
+    { title: "Mis OKRs", url: "/active", icon: FileText },
+    { title: "Historial", url: "/history", icon: Folder },
   ];
   
-  const toolsItems = [
+  const resourcesItems = [
     { title: "Guías prácticas", url: "/guides", icon: HelpCircle },
     { title: "Plantillas de OKRs", url: "/templates", icon: FileText },
     { title: "Importar desde CSV", url: "/import", icon: Folder },
@@ -52,28 +52,18 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
     <div className="flex flex-col h-full bg-sidebar-bg transition-all duration-300 ease-in-out">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
-        {!isCollapsed && (
-          <div className="flex items-center">
-            <div className="w-[18px] h-[18px] bg-[#0078D4] rounded-full flex items-center justify-center">
-              <Target className="h-3 w-3 text-white" />
-            </div>
-            <span className="sidebar-logo-text">OKR Consultant</span>
+        <div className="flex items-center justify-center w-full">
+          <div className="w-[24px] h-[24px] bg-[#0078D4] rounded-full flex items-center justify-center">
+            <Target className="h-3 w-3 text-white" />
           </div>
-        )}
-        {isCollapsed && (
-          <div className="flex items-center justify-center w-full">
-            <div className="w-[18px] h-[18px] bg-[#0078D4] rounded-full flex items-center justify-center">
-              <Target className="h-3 w-3 text-white" />
-            </div>
-          </div>
-        )}
+        </div>
         <Button
           variant="ghost"
           size="icon"
           onClick={onToggle}
           className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
         >
-          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          <Menu className="h-3 w-3" />
         </Button>
       </div>
 
@@ -90,7 +80,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to="/new">
-                    <Plus className="sidebar-icon" />
+                    <Plus className="h-3 w-3" />
                   </NavLink>
                 </Button>
               </TooltipTrigger>
@@ -106,7 +96,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             asChild
           >
             <NavLink to="/new">
-              <Plus className="sidebar-icon" />
+              <Plus className="h-3 w-3" />
               <span className="sidebar-menu-item">Nuevo OKR</span>
             </NavLink>
           </Button>
@@ -138,7 +128,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         asChild
                       >
                         <NavLink to={item.url}>
-                          <item.icon className="sidebar-icon" />
+                          <item.icon className="h-3 w-3" />
                         </NavLink>
                       </Button>
                     </TooltipTrigger>
@@ -157,7 +147,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to={item.url}>
-                    <item.icon className="sidebar-icon" />
+                    <item.icon className="h-3 w-3" />
                     <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
                   </NavLink>
                 </Button>
@@ -166,18 +156,18 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           ))}
         </div>
 
-        {/* Tools Section */}
+        {/* Resources Section */}
         <div className="space-y-1 mb-6">
           {isCollapsed ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <Settings className="sidebar-icon" />
+                    <Wrench className="h-3 w-3" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
-                  <p>Herramientas OKR</p>
+                  <p>Recursos</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -185,16 +175,16 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <Settings className="sidebar-icon" />
-                  <span className="ml-3 sidebar-tools-title">Herramientas OKR</span>
+                  <Wrench className="h-3 w-3" />
+                  <span className="ml-3 sidebar-tools-title">Recursos</span>
                   <ChevronDown className={cn(
-                    "sidebar-icon ml-auto transition-transform",
+                    "h-3 w-3 ml-auto transition-transform",
                     isToolsOpen && "rotate-180"
                   )} />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-1 ml-4">
-                {toolsItems.map((item) => (
+                {resourcesItems.map((item) => (
                   <Button
                     key={item.title}
                     variant="sidebar"
@@ -205,7 +195,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                     asChild
                   >
                     <NavLink to={item.url}>
-                      <item.icon className="sidebar-subicon" />
+                      <item.icon className="h-3 w-3" />
                       <span className="ml-3 sidebar-submenu-item">{item.title}</span>
                     </NavLink>
                   </Button>
@@ -238,7 +228,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         asChild
                       >
                         <NavLink to={item.url}>
-                          <item.icon className="sidebar-icon" />
+                          <item.icon className="h-3 w-3" />
                         </NavLink>
                       </Button>
                     </TooltipTrigger>
@@ -257,7 +247,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to={item.url}>
-                    <item.icon className="sidebar-icon" />
+                    <item.icon className="h-3 w-3" />
                     <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
                   </NavLink>
                 </Button>

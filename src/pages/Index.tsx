@@ -22,7 +22,9 @@ const Index = () => {
         <Header />
         
         <main className="flex-1 flex items-center justify-center py-16 bg-bg-primary min-h-screen">
-          <ChatInterface />
+          <div className="w-full max-w-[980px] mx-auto">
+            <ChatInterface />
+          </div>
         </main>
         
         <Footer />
