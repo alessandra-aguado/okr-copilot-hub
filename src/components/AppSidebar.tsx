@@ -2,15 +2,15 @@ import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { 
   Plus, 
-  CheckSquare, 
+  FileText, 
   Target, 
-  History, 
+  Folder, 
   Settings, 
   HelpCircle, 
-  Activity, 
+  BarChart3, 
   ChevronDown,
   Menu,
-  BookOpen
+  Wrench
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -32,19 +32,19 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
   
   const navigationItems = [
     { title: "Crear OKR", url: "/create", icon: Target },
-    { title: "Mis OKRs", url: "/active", icon: CheckSquare },
-    { title: "Historial", url: "/history", icon: History },
+    { title: "Mis OKRs", url: "/active", icon: FileText },
+    { title: "Historial", url: "/history", icon: Folder },
   ];
   
   const resourcesItems = [
     { title: "Guías prácticas", url: "/guides", icon: HelpCircle },
-    { title: "Plantillas de OKRs", url: "/templates", icon: CheckSquare },
-    { title: "Importar desde CSV", url: "/import", icon: History },
+    { title: "Plantillas de OKRs", url: "/templates", icon: FileText },
+    { title: "Importar desde CSV", url: "/import", icon: Folder },
   ];
   
   const settingsItems = [
     { title: "Ayuda", url: "/help", icon: HelpCircle },
-    { title: "Actividad", url: "/activity", icon: Activity },
+    { title: "Actividad", url: "/activity", icon: BarChart3 },
     { title: "Ajustes", url: "/settings", icon: Settings },
   ];
 
@@ -75,7 +75,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
         ) : (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-            <div className="w-[16px] h-[16px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
               <Target className="h-4 w-4 text-white" />
             </div>
               <span className="ml-3 font-semibold text-sidebar-text">OKR Consultant</span>
@@ -188,7 +188,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                    <Button variant="sidebar" size="icon" className="w-full h-10">
-                     <BookOpen className="h-4 w-4" />
+                     <Wrench className="h-4 w-4" />
                    </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
@@ -200,7 +200,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <BookOpen className="h-4 w-4" />
+                  <Wrench className="h-4 w-4" />
                   <span className="ml-2 sidebar-tools-title">Recursos</span>
                   <ChevronDown className={cn(
                     "h-4 w-4 ml-auto transition-transform",
