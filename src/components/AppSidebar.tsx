@@ -75,9 +75,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
         ) : (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <Target className="h-3.5 w-3.5 text-white" />
-              </div>
+            <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <Target className="h-4 w-4 text-white" />
+            </div>
               <span className="ml-3 font-semibold text-sidebar-text">OKR Consultant</span>
             </div>
             <Button
@@ -105,7 +105,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to="/new">
-                    <Plus className="h-3.5 w-3.5" />
+                    <Plus className="h-4 w-4" />
                   </NavLink>
                 </Button>
               </TooltipTrigger>
@@ -121,7 +121,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             asChild
           >
             <NavLink to="/new">
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-4 w-4" />
               <span className="ml-2 sidebar-menu-item">Nuevo OKR</span>
             </NavLink>
           </Button>
@@ -203,7 +203,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   <Wrench className="h-4 w-4" />
                   <span className="ml-2 sidebar-tools-title">Recursos</span>
                   <ChevronDown className={cn(
-                    "h-3.5 w-3.5 ml-auto transition-transform",
+                    "h-4 w-4 ml-auto transition-transform",
                     isToolsOpen && "rotate-180"
                   )} />
                 </Button>
@@ -220,7 +220,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                     asChild
                   >
                     <NavLink to={item.url}>
-                      <item.icon className="h-3.5 w-3.5" />
+                      <item.icon className="h-4 w-4" />
                       <span className="ml-2 sidebar-submenu-item">{item.title}</span>
                     </NavLink>
                   </Button>
