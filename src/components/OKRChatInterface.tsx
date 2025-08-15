@@ -446,8 +446,12 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
            normalizedMessage.includes("transformación") ||
            normalizedMessage.includes("transformacion") ||
            normalizedMessage.includes("organizacional") ||
-           normalizedMessage.includes("impulsamios mejoras") ||
-           normalizedMessage.includes("probamos soluciones"))) {
+           normalizedMessage.includes("impulsamos mejoras") ||
+           normalizedMessage.includes("probamos soluciones") ||
+           normalizedMessage.includes("nosotros") ||
+           normalizedMessage.includes("acompañamos") ||
+           normalizedMessage.includes("procesos clave") ||
+           normalizedMessage.includes("cambio"))) {
         return createConsultantMessage(conversationFlow[3].consultantResponse);
       }
       
