@@ -285,7 +285,10 @@
   .logo-text {
     font-size: 16px;
     font-weight: 600;
-    color: #1C1C1E;
+    background: linear-gradient(135deg, hsl(187 100% 60%), hsl(221 83% 53%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     white-space: nowrap;
     margin-left: 8px;
   }

@@ -53,18 +53,24 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       {/* Header */}
       <div className="flex items-center p-4 border-b border-sidebar-border">
         {isCollapsed ? (
-          <div className="flex items-center justify-between w-full">
-            <div className="w-[24px] h-[24px] bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-              <Target className="h-3.5 w-3.5 text-white" />
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onToggle}
-              className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover ml-2"
-            >
-              <Menu className="h-4 w-4" />
-            </Button>
+          <div className="flex justify-center w-full">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={onToggle}
+                    className="h-10 w-10 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
+                  >
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>Expandir menú</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         ) : (
           <div className="flex items-center justify-between w-full">
@@ -146,9 +152,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         )}
                         asChild
                       >
-                         <NavLink to={item.url}>
-                           <item.icon className="h-5 w-5" />
-                         </NavLink>
+                          <NavLink to={item.url}>
+                            <item.icon className="h-4 w-4" />
+                          </NavLink>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="right">
@@ -182,7 +188,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                    <Button variant="sidebar" size="icon" className="w-full h-10">
-                     <Wrench className="h-5 w-5" />
+                     <Wrench className="h-4 w-4" />
                    </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
@@ -246,9 +252,9 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         )}
                         asChild
                       >
-                         <NavLink to={item.url}>
-                           <item.icon className="h-5 w-5" />
-                         </NavLink>
+                          <NavLink to={item.url}>
+                            <item.icon className="h-4 w-4" />
+                          </NavLink>
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent side="right">
