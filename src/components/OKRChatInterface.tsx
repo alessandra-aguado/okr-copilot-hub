@@ -51,14 +51,7 @@ KR3:
       }
     },
     {
-      userInput: "Los OKRs de unidad superior con los que me debo alinear son los de mi empresa, Attach.
-Aquí te los comparto:
-O: Impulsar una evolución organizacional que eleve nuestro estándar operativo y acelere nuestro crecimiento.
-KR1: Aumentar la satisfacción promedio del cliente de 4.1 a 4.5
-KR2: Elevar la rentabilidad promedio de cuentas y proyectos Alliance de 32% a 37%
-KR3: Incrementar el índice de productividad global (IPG) de 1.17 a 1.5
-KR4: Evolucionar la madurez de los CoEs en 15%, según el assessment del modelo operativo organizacional.
-",
+      userInput: "Los OKRs de unidad superior con los que me debo alinear son los de mi empresa, Attach.\nAquí te los comparto:\nO: Impulsar una evolución organizacional que eleve nuestro estándar operativo y acelere nuestro crecimiento.\nKR1: Aumentar la satisfacción promedio del cliente de 4.1 a 4.5\nKR2: Elevar la rentabilidad promedio de cuentas y proyectos Alliance de 32% a 37%\nKR3: Incrementar el índice de productividad global (IPG) de 1.17 a 1.5\nKR4: Evolucionar la madurez de los CoEs en 15%, según el assessment del modelo operativo organizacional.",
       consultantResponse: {
         content: `¡Perfecto! Ya tengo el OKR principal de Attach.
 
