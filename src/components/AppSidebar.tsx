@@ -54,7 +54,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-center w-full">
           <div className="w-[24px] h-[24px] bg-[#0078D4] rounded-full flex items-center justify-center">
-            <Target className="h-3 w-3 text-white" />
+            <Target className="h-1.5 w-1.5 text-white" />
           </div>
         </div>
         <Button
@@ -63,7 +63,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
           onClick={onToggle}
           className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover"
         >
-          <Menu className="h-3 w-3" />
+          <Menu className="h-1.5 w-1.5" />
         </Button>
       </div>
 
@@ -80,7 +80,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to="/new">
-                    <Plus className="h-3 w-3" />
+                    <Plus className="h-1.5 w-1.5" />
                   </NavLink>
                 </Button>
               </TooltipTrigger>
@@ -96,7 +96,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             asChild
           >
             <NavLink to="/new">
-              <Plus className="h-3 w-3" />
+              <Plus className="h-1.5 w-1.5" />
               <span className="sidebar-menu-item">Nuevo OKR</span>
             </NavLink>
           </Button>
@@ -163,7 +163,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <Wrench className="h-3 w-3" />
+                    <Wrench className="h-1.5 w-1.5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
@@ -175,10 +175,10 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
             <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
                 <Button variant="sidebar" className="w-full">
-                  <Wrench className="h-3 w-3" />
+                  <Wrench className="h-1.5 w-1.5" />
                   <span className="ml-3 sidebar-tools-title">Recursos</span>
                   <ChevronDown className={cn(
-                    "h-3 w-3 ml-auto transition-transform",
+                    "h-1.5 w-1.5 ml-auto transition-transform",
                     isToolsOpen && "rotate-180"
                   )} />
                 </Button>
@@ -195,7 +195,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                     asChild
                   >
                     <NavLink to={item.url}>
-                      <item.icon className="h-3 w-3" />
+                      <item.icon className="h-1.5 w-1.5" />
                       <span className="ml-3 sidebar-submenu-item">{item.title}</span>
                     </NavLink>
                   </Button>
@@ -228,7 +228,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                         asChild
                       >
                         <NavLink to={item.url}>
-                          <item.icon className="h-3 w-3" />
+                          <item.icon className="h-1.5 w-1.5" />
                         </NavLink>
                       </Button>
                     </TooltipTrigger>
@@ -247,7 +247,7 @@ const AppSidebar = ({ isCollapsed, onToggle }: AppSidebarProps) => {
                   asChild
                 >
                   <NavLink to={item.url}>
-                    <item.icon className="h-3 w-3" />
+                    <item.icon className="h-1.5 w-1.5" />
                     <span className="ml-3 truncate sidebar-menu-item">{item.title}</span>
                   </NavLink>
                 </Button>
