@@ -411,76 +411,77 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
   const findConsultantResponse = (userMessage: string, step: number): ChatMessage => {
     const normalizedMessage = userMessage.toLowerCase();
     
-    // Match specific flows
-    if (normalizedMessage.includes("crear okr") || step === 0) {
-      return createConsultantMessage(conversationFlow[0].consultantResponse);
-    }
-    
-    // Step 1: User provides OKRs from superior unit (Attach)
-    if ((normalizedMessage.includes("attach") || 
-         normalizedMessage.includes("impulsar una evolución") ||
-         normalizedMessage.includes("kr1:") ||
-         normalizedMessage.includes("satisfacción promedio del cliente") ||
-         normalizedMessage.includes("rentabilidad promedio") ||
-         normalizedMessage.includes("índice de productividad global") ||
-         normalizedMessage.includes("madurez de los coes")) || step === 1) {
-      return createConsultantMessage(conversationFlow[1].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("transcripción") || 
-        normalizedMessage.includes("tengo la transcripción de la reunión") ||
-        step === 2) {
-      return createConsultantMessage(conversationFlow[2].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("coe") || normalizedMessage.includes("innovación") || step === 3) {
-      return createConsultantMessage(conversationFlow[3].consultantResponse);
-    }
-    
-    if ((normalizedMessage.includes("sí") && normalizedMessage.includes("cuatrimestre")) ||
-        normalizedMessage.includes("ya estamos por iniciar el c3") ||
-        step === 4) {
-      return createConsultantMessage(conversationFlow[4].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("correcto") || step === 5) {
-      return createConsultantMessage(conversationFlow[5].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("ya tengo") || step === 6) {
-      return createConsultantMessage(conversationFlow[6].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("asegurar") || normalizedMessage.includes("calidad") || step === 7) {
-      return createConsultantMessage(conversationFlow[7].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("usar") && normalizedMessage.includes("objetivo") || step === 8) {
-      return createConsultantMessage(conversationFlow[8].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("comparto") && normalizedMessage.includes("kr") || step === 9) {
-      return createConsultantMessage(conversationFlow[9].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("refinar") || step === 10) {
-      return createConsultantMessage(conversationFlow[10].consultantResponse);
-    }
-    
-    if (step === 11) {
-      return createConsultantMessage(conversationFlow[11].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("aplicar") && step === 12) {
-      return createConsultantMessage(conversationFlow[12].consultantResponse);
-    }
-    
-    if (step === 13) {
-      return createConsultantMessage(conversationFlow[13].consultantResponse);
-    }
-    
-    if (normalizedMessage.includes("iniciativas") || step === 14) {
-      return createConsultantMessage(conversationFlow[14].consultantResponse);
+    // Use step-based logic first to avoid conflicts
+    if (step < conversationFlow.length) {
+      // Check for specific step patterns
+      if (step === 0 && normalizedMessage.includes("crear okr")) {
+        return createConsultantMessage(conversationFlow[0].consultantResponse);
+      }
+      
+      // Step 1: User provides OKRs from superior unit (Attach)
+      if (step === 1 && (normalizedMessage.includes("attach") || 
+           normalizedMessage.includes("impulsar una evolución") ||
+           normalizedMessage.includes("kr1:") ||
+           normalizedMessage.includes("satisfacción promedio del cliente") ||
+           normalizedMessage.includes("rentabilidad promedio") ||
+           normalizedMessage.includes("índice de productividad global") ||
+           normalizedMessage.includes("madurez de los coes"))) {
+        return createConsultantMessage(conversationFlow[1].consultantResponse);
+      }
+      
+      if (step === 2 && (normalizedMessage.includes("transcripción") || 
+          normalizedMessage.includes("tengo la transcripción de la reunión"))) {
+        return createConsultantMessage(conversationFlow[2].consultantResponse);
+      }
+      
+      if (step === 3 && (normalizedMessage.includes("coe") || normalizedMessage.includes("innovación"))) {
+        return createConsultantMessage(conversationFlow[3].consultantResponse);
+      }
+      
+      if (step === 4 && ((normalizedMessage.includes("sí") && normalizedMessage.includes("cuatrimestre")) ||
+          normalizedMessage.includes("ya estamos por iniciar el c3"))) {
+        return createConsultantMessage(conversationFlow[4].consultantResponse);
+      }
+      
+      if (step === 5 && normalizedMessage.includes("correcto")) {
+        return createConsultantMessage(conversationFlow[5].consultantResponse);
+      }
+      
+      if (step === 6 && normalizedMessage.includes("ya tengo")) {
+        return createConsultantMessage(conversationFlow[6].consultantResponse);
+      }
+      
+      if (step === 7 && (normalizedMessage.includes("asegurar") || normalizedMessage.includes("calidad"))) {
+        return createConsultantMessage(conversationFlow[7].consultantResponse);
+      }
+      
+      if (step === 8 && (normalizedMessage.includes("usar") && normalizedMessage.includes("objetivo"))) {
+        return createConsultantMessage(conversationFlow[8].consultantResponse);
+      }
+      
+      if (step === 9 && (normalizedMessage.includes("comparto") && normalizedMessage.includes("kr"))) {
+        return createConsultantMessage(conversationFlow[9].consultantResponse);
+      }
+      
+      if (step === 10 && normalizedMessage.includes("refinar")) {
+        return createConsultantMessage(conversationFlow[10].consultantResponse);
+      }
+      
+      if (step === 11) {
+        return createConsultantMessage(conversationFlow[11].consultantResponse);
+      }
+      
+      if (step === 12 && normalizedMessage.includes("aplicar")) {
+        return createConsultantMessage(conversationFlow[12].consultantResponse);
+      }
+      
+      if (step === 13) {
+        return createConsultantMessage(conversationFlow[13].consultantResponse);
+      }
+      
+      if (step === 14 && normalizedMessage.includes("iniciativas")) {
+        return createConsultantMessage(conversationFlow[14].consultantResponse);
+      }
     }
 
     // Default response
