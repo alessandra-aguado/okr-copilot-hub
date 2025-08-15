@@ -421,11 +421,15 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
       // Step 1: User provides OKRs from superior unit (Attach)
       if (step === 1 && (normalizedMessage.includes("attach") || 
            normalizedMessage.includes("impulsar una evolución") ||
+           normalizedMessage.includes("impulsar una evolución organizacional") ||
+           normalizedMessage.includes("aumentar la satisfacción promedio del cliente") ||
+           normalizedMessage.includes("elevar la rentabilidad promedio") ||
+           normalizedMessage.includes("incrementar el índice de productividad global") ||
+           normalizedMessage.includes("evolucionar la madurez de los coes") ||
            normalizedMessage.includes("kr1:") ||
-           normalizedMessage.includes("satisfacción promedio del cliente") ||
-           normalizedMessage.includes("rentabilidad promedio") ||
-           normalizedMessage.includes("índice de productividad global") ||
-           normalizedMessage.includes("madurez de los coes"))) {
+           normalizedMessage.includes("kr2:") ||
+           normalizedMessage.includes("kr3:") ||
+           normalizedMessage.includes("kr4:"))) {
         return createConsultantMessage(conversationFlow[1].consultantResponse);
       }
       
@@ -548,7 +552,7 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
                     {/* Message Content */}
                     <div className="px-4 py-3">
                       <div className="prose prose-sm max-w-none">
-                        <p className="text-slate-900 whitespace-pre-wrap m-0 leading-[1.6] font-normal text-[15px]">
+                        <p className="text-slate-900 whitespace-pre-line m-0 leading-[1.6] font-normal text-[15px]">
                           {message.content}
                         </p>
                       </div>
