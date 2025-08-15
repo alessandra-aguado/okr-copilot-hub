@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendIcon } from "lucide-react";
+import PDFAttachment from "./PDFAttachment";
 
 interface ChatMessage {
   id: string;
@@ -9,6 +10,13 @@ interface ChatMessage {
   content: string;
   suggestions?: string[];
   timestamp: Date;
+  attachments?: PDFAttachmentData[];
+}
+
+interface PDFAttachmentData {
+  fileName: string;
+  fileSize: string;
+  id: string;
 }
 
 const OKRChatInterface = () => {
@@ -30,7 +38,7 @@ const OKRChatInterface = () => {
 Empecemos con lo esencial. Para ayudarte a construir tu OKR, necesito conocer los OKRs de tu unidad superior. ¿Podrías compartirlos en este formato?
 
 Objetivo (O): 
-KR1:
+KR1: 
 KR2: 
 KR3:
 
@@ -66,7 +74,14 @@ Con esa información, podré ayudarte a asegurar que tus OKRs estén correctamen
 🔍 Ahora, para ayudarte de forma más precisa, necesito conocer mejor el funcionamiento de tu unidad dentro de la organización.
 
 Voy a hacerte algunas preguntas breves, una por una. Si prefieres, también puedes compartirme un documento donde se describa la función de tu área. Lo que te sea más cómodo 😊`,
-        suggestions: []
+        suggestions: [],
+        attachments: [
+          {
+            id: "pdf-1",
+            fileName: "C1 2025 CoE Innovación.pdf",
+            fileSize: "1.2 MB"
+          }
+        ]
       }
     },
     {
@@ -91,7 +106,14 @@ Después de revisar tus OKRs anteriores, esto es lo que puedo concluir sobre tu 
 • Tus KRs anteriores cubren una diversidad de focos: desde eficiencia operativa e IA, hasta cultura organizacional y marcos de gestión de proyectos.
 
 ✅ ¿Te parece acertado este diagnóstico?`,
-        suggestions: []
+        suggestions: [],
+        attachments: [
+          {
+            id: "pdf-2",
+            fileName: "C2 2025 CoE Innovación.pdf",
+            fileSize: "1.8 MB"
+          }
+        ]
       }
     },
     {
@@ -405,7 +427,9 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
       return createConsultantMessage(conversationFlow[1].consultantResponse);
     }
     
-    if (normalizedMessage.includes("transcripción") || step === 2) {
+    if (normalizedMessage.includes("transcripción") || 
+        normalizedMessage.includes("tengo la transcripción de la reunión") ||
+        step === 2) {
       return createConsultantMessage(conversationFlow[2].consultantResponse);
     }
     
@@ -413,7 +437,9 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
       return createConsultantMessage(conversationFlow[3].consultantResponse);
     }
     
-    if (normalizedMessage.includes("sí") && normalizedMessage.includes("cuatrimestre") || step === 4) {
+    if ((normalizedMessage.includes("sí") && normalizedMessage.includes("cuatrimestre")) ||
+        normalizedMessage.includes("ya estamos por iniciar el c3") ||
+        step === 4) {
       return createConsultantMessage(conversationFlow[4].consultantResponse);
     }
     
@@ -468,12 +494,13 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     });
   };
 
-  const createConsultantMessage = (response: { content: string; suggestions?: string[] }): ChatMessage => {
+  const createConsultantMessage = (response: any): ChatMessage => {
     return {
-      id: (Date.now() + 1).toString(),
+      id: Date.now().toString(),
       type: 'consultant',
       content: response.content,
       suggestions: response.suggestions || [],
+      attachments: response.attachments || [],
       timestamp: new Date()
     };
   };
@@ -484,124 +511,104 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     setMessages([initialMessage]);
   }, []);
 
-  const renderContent = (content: string) => {
-    // Split content by double newlines to create paragraphs
-    const paragraphs = content.split('\n\n');
-    
-    return paragraphs.map((paragraph, index) => {
-      // Handle bold text (**text**)
-      const formattedParagraph = paragraph.split('**').map((part, partIndex) => {
-        if (partIndex % 2 === 1) {
-          return <strong key={partIndex} className="font-semibold">{part}</strong>;
-        }
-        return part;
-      });
-
-      // Check if paragraph starts with bullet point or emoji
-      if (paragraph.startsWith('•') || paragraph.startsWith('📌') || paragraph.startsWith('✅') || paragraph.startsWith('❌')) {
-        return (
-          <div key={index} className="mb-3">
-            {formattedParagraph}
-          </div>
-        );
-      }
-
-      return (
-        <p key={index} className="mb-4 last:mb-0">
-          {formattedParagraph}
-        </p>
-      );
-    });
-  };
-
   return (
-    <div className="h-screen flex flex-col bg-white">
-      {/* Header */}
-      <div className="border-b border-gray-200 px-6 py-4 bg-white">
-        <h1 className="text-xl font-semibold text-gray-900">OKR Consultant</h1>
-        <p className="text-sm text-gray-600 mt-1">Construyamos tus OKRs paso a paso</p>
-      </div>
-
+    <div className="flex flex-col h-screen bg-white">
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 pb-32">
-        {messages.map((message) => (
-          <div key={message.id}>
-            {message.type === 'consultant' ? (
-              // Assistant messages - full width, no bubble
-              <div className="w-full">
-                <div className="prose prose-sm max-w-none text-gray-900 leading-relaxed">
-                  {renderContent(message.content)}
-                </div>
-                
-                {/* Quick reply suggestions */}
-                {message.suggestions && message.suggestions.length > 0 && showSuggestions && (
-                  <div className="flex flex-wrap gap-2 mt-6">
-                    {message.suggestions.slice(0, 3).map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="px-4 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 cursor-pointer rounded-full"
-                        style={{
-                          borderRadius: '20px',
-                          backgroundColor: '#F5F5F5',
-                          border: '1px solid #E5E5E5'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#E5E5E5';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = '#F5F5F5';
-                        }}
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
+      <div className="flex-1 overflow-y-auto p-4 pb-32">
+        <div className="max-w-[650px] mx-auto space-y-6">
+          {messages.map((message) => (
+            <div key={message.id} className="space-y-4">
+              {/* Message Content */}
+              <div className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {message.type === 'user' ? (
+                  <div className="max-w-[70%] bg-blue-50 rounded-xl px-4 py-3">
+                    <p className="text-slate-900 whitespace-pre-wrap font-normal leading-[1.6] text-[15px]">
+                      {message.content}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    {/* PDF Attachments */}
+                    {message.attachments && message.attachments.length > 0 && (
+                      <div className="mb-4 space-y-2">
+                        {message.attachments.map((attachment) => (
+                          <PDFAttachment
+                            key={attachment.id}
+                            fileName={attachment.fileName}
+                            fileSize={attachment.fileSize}
+                            onOpen={() => console.log('Open PDF:', attachment.fileName)}
+                            onDownload={() => console.log('Download PDF:', attachment.fileName)}
+                            className="w-full"
+                          />
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Message Content */}
+                    <div className="px-4 py-3">
+                      <div className="prose prose-sm max-w-none">
+                        <p className="text-slate-900 whitespace-pre-wrap m-0 leading-[1.6] font-normal text-[15px]">
+                          {message.content}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
-            ) : (
-              // User messages - right-aligned bubble
-              <div className="flex justify-end">
-                <div className="max-w-[70%] bg-blue-50 border border-blue-100 rounded-2xl px-4 py-3">
-                  <p className="text-gray-900 text-sm leading-relaxed">{message.content}</p>
+
+              {/* Suggestions */}
+              {message.type === 'consultant' && message.suggestions && message.suggestions.length > 0 && showSuggestions && (
+                <div className="flex flex-wrap gap-2 justify-start max-w-full">
+                  {message.suggestions.slice(0, 3).map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="px-4 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-full text-sm font-semibold transition-colors cursor-pointer border border-slate-200"
+                      style={{ borderRadius: '20px' }}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {isWaitingForResponse && (
+            <div className="flex justify-start">
+              <div className="px-4 py-3">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
-            )}
-          </div>
-        ))}
-        
-        {isWaitingForResponse && (
-          <div className="w-full">
-            <div className="flex space-x-1">
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
             </div>
-          </div>
-        )}
-        
-        <div ref={messagesEndRef} />
+          )}
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
-      {/* Fixed Input Area */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4">
-        <div className="max-w-4xl mx-auto flex gap-3">
-          <Input
-            ref={inputRef}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Escribe tu mensaje..."
-            className="flex-1 rounded-full px-4 py-3 border-gray-200 focus:border-blue-300 focus:ring focus:ring-blue-100"
-            disabled={isWaitingForResponse}
-          />
-          <Button 
-            onClick={() => handleSendMessage(inputValue)}
-            disabled={!inputValue.trim() || isWaitingForResponse}
-            className="rounded-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            <SendIcon className="w-4 h-4" />
-          </Button>
+      {/* Input Area */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4">
+        <div className="max-w-[650px] mx-auto">
+          <div className="flex gap-2">
+            <Input
+              ref={inputRef}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Escribe tu mensaje..."
+              className="flex-1 text-[15px] font-normal"
+              disabled={isWaitingForResponse}
+            />
+            <Button
+              onClick={() => handleSendMessage(inputValue)}
+              disabled={!inputValue.trim() || isWaitingForResponse}
+            >
+              <SendIcon size={20} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
