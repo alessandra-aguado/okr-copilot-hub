@@ -394,7 +394,14 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
       return createConsultantMessage(conversationFlow[0].consultantResponse);
     }
     
-    if (normalizedMessage.includes("attach") || step === 1) {
+    // Step 1: User provides OKRs from superior unit (Attach)
+    if ((normalizedMessage.includes("attach") || 
+         normalizedMessage.includes("impulsar una evolución") ||
+         normalizedMessage.includes("kr1:") ||
+         normalizedMessage.includes("satisfacción promedio del cliente") ||
+         normalizedMessage.includes("rentabilidad promedio") ||
+         normalizedMessage.includes("índice de productividad global") ||
+         normalizedMessage.includes("madurez de los coes")) || step === 1) {
       return createConsultantMessage(conversationFlow[1].consultantResponse);
     }
     
