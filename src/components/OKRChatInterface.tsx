@@ -438,7 +438,16 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
         return createConsultantMessage(conversationFlow[2].consultantResponse);
       }
       
-      if (step === 3 && (normalizedMessage.includes("coe") || normalizedMessage.includes("innovación"))) {
+      if (step === 3 && (normalizedMessage.includes("líder") || 
+           normalizedMessage.includes("lider") ||
+           normalizedMessage.includes("coe") ||
+           normalizedMessage.includes("innovación") ||
+           normalizedMessage.includes("innovacion") ||
+           normalizedMessage.includes("transformación") ||
+           normalizedMessage.includes("transformacion") ||
+           normalizedMessage.includes("organizacional") ||
+           normalizedMessage.includes("impulsamios mejoras") ||
+           normalizedMessage.includes("probamos soluciones"))) {
         return createConsultantMessage(conversationFlow[3].consultantResponse);
       }
       
