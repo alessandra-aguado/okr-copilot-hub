@@ -285,11 +285,11 @@ export const MenuIcon = ({ size = 20, className = "" }: IconProps) => (
   </svg>
 );
 
-export const FileIcon = ({ size = 16, className = "" }: IconProps) => (
+export const FileIcon = ({ size = 20, className = "" }: IconProps) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 16 16"
+    viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
     strokeWidth="1.5"
@@ -297,16 +297,16 @@ export const FileIcon = ({ size = 16, className = "" }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M3 2h7l3 3v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
-    <path d="M10 2v3h3" />
+    <path d="M4 3h8l4 4v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
+    <path d="M12 3v4h4" />
   </svg>
 );
 
-export const FolderIcon = ({ size = 16, className = "" }: IconProps) => (
+export const FolderIcon = ({ size = 20, className = "" }: IconProps) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 16 16"
+    viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
     strokeWidth="1.5"
@@ -314,6 +314,6 @@ export const FolderIcon = ({ size = 16, className = "" }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M2 4v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H8L6 3H3a1 1 0 0 0-1 1z" />
+    <path d="M3 5v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-5L9 4H4a1 1 0 0 0-1 1z" />
   </svg>
 );
