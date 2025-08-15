@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendIcon, BotIcon } from "lucide-react";
+import { SendIcon } from "lucide-react";
 
 interface ChatMessage {
   id: string;
@@ -16,6 +16,9 @@ const OKRChatInterface = () => {
   const [inputValue, setInputValue] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Complete conversation flow based on the provided conversation
   const conversationFlow = [
@@ -352,6 +355,7 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     setMessages(prev => [...prev, userMessage]);
     setInputValue("");
     setIsWaitingForResponse(true);
+    setShowSuggestions(false);
 
     // Find matching response or provide default
     setTimeout(() => {
@@ -359,7 +363,27 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
       setMessages(prev => [...prev, consultantResponse]);
       setCurrentStep(prev => prev + 1);
       setIsWaitingForResponse(false);
+      setShowSuggestions(true);
     }, 1000);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    handleSendMessage(suggestion);
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage(inputValue);
+    }
   };
 
   const findConsultantResponse = (userMessage: string, step: number): ChatMessage => {
@@ -447,77 +471,73 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     };
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    handleSendMessage(suggestion);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage(inputValue);
-    }
-  };
-
-  // Start conversation automatically
-  const startConversation = () => {
-    if (messages.length === 0) {
-      const initialMessage = createConsultantMessage(conversationFlow[0].consultantResponse);
-      setMessages([initialMessage]);
-      setCurrentStep(1);
-    }
-  };
-
-  // Auto-start conversation when component mounts
+  // Start conversation when component mounts
   useEffect(() => {
-    startConversation();
+    const initialMessage = createConsultantMessage(conversationFlow[0].consultantResponse);
+    setMessages([initialMessage]);
   }, []);
 
-  return (
-    <div className="w-full max-w-4xl mx-auto px-6 flex flex-col h-[700px]">
-      {/* Header */}
-      <div className="text-center space-y-3 mb-6">
-        <h1 className="text-adaptive-title gradient-text tracking-tight">
-          OKR Consultant
-        </h1>
-        <p className="text-adaptive-subtitle text-secondary">
-          Te ayudo a construir OKRs estratégicos y alineados
+  const renderContent = (content: string) => {
+    // Split content by double newlines to create paragraphs
+    const paragraphs = content.split('\n\n');
+    
+    return paragraphs.map((paragraph, index) => {
+      // Handle bold text (**text**)
+      const formattedParagraph = paragraph.split('**').map((part, partIndex) => {
+        if (partIndex % 2 === 1) {
+          return <strong key={partIndex} className="font-semibold">{part}</strong>;
+        }
+        return part;
+      });
+
+      // Check if paragraph starts with bullet point or emoji
+      if (paragraph.startsWith('•') || paragraph.startsWith('📌') || paragraph.startsWith('✅') || paragraph.startsWith('❌')) {
+        return (
+          <div key={index} className="mb-3">
+            {formattedParagraph}
+          </div>
+        );
+      }
+
+      return (
+        <p key={index} className="mb-4 last:mb-0">
+          {formattedParagraph}
         </p>
+      );
+    });
+  };
+
+  return (
+    <div className="h-screen flex flex-col bg-white">
+      {/* Header */}
+      <div className="border-b border-gray-200 px-6 py-4 bg-white">
+        <h1 className="text-xl font-semibold text-gray-900">OKR Consultant</h1>
+        <p className="text-sm text-gray-600 mt-1">Construyamos tus OKRs paso a paso</p>
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto space-y-6 mb-6">
+      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 pb-32">
         {messages.map((message) => (
-          <div key={message.id} className="w-full">
+          <div key={message.id}>
             {message.type === 'consultant' ? (
-              /* Bot Message - Full width, left aligned, no bubble */
+              // Assistant messages - full width, no bubble
               <div className="w-full">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center flex-shrink-0 mt-1">
-                    <BotIcon size={16} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="bg-white p-6 rounded-lg border border-gray-100">
-                      <div className="prose prose-sm max-w-none">
-                        <div className="whitespace-pre-wrap text-gray-900 leading-relaxed">
-                          {message.content}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="prose prose-sm max-w-none text-gray-900 leading-relaxed">
+                  {renderContent(message.content)}
                 </div>
                 
-                {/* Suggestion Bubbles - Copilot Style */}
-                {message.suggestions && message.suggestions.length > 0 && (
-                  <div className="ml-11 flex flex-wrap gap-2 mt-3">
+                {/* Quick reply suggestions */}
+                {message.suggestions && message.suggestions.length > 0 && showSuggestions && (
+                  <div className="flex flex-wrap gap-2 mt-6">
                     {message.suggestions.slice(0, 3).map((suggestion, index) => (
                       <button
                         key={index}
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-sm font-medium text-gray-700 transition-all duration-200 cursor-pointer hover:shadow-sm"
+                        className="px-4 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 cursor-pointer rounded-full"
                         style={{
                           borderRadius: '20px',
                           backgroundColor: '#F5F5F5',
-                          color: '#333'
+                          border: '1px solid #E5E5E5'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = '#E5E5E5';
@@ -533,53 +553,47 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
                 )}
               </div>
             ) : (
-              /* User Message - Right aligned, with bubble */
-              <div className="w-full flex justify-end">
-                <div className="max-w-[80%] bg-blue-50 rounded-2xl px-4 py-3 border border-blue-100">
-                  <div className="text-gray-900 text-sm leading-relaxed">
-                    {message.content}
-                  </div>
+              // User messages - right-aligned bubble
+              <div className="flex justify-end">
+                <div className="max-w-[70%] bg-blue-50 border border-blue-100 rounded-2xl px-4 py-3">
+                  <p className="text-gray-900 text-sm leading-relaxed">{message.content}</p>
                 </div>
               </div>
             )}
           </div>
         ))}
-
+        
         {isWaitingForResponse && (
           <div className="w-full">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center flex-shrink-0 mt-1">
-                <BotIcon size={16} />
-              </div>
-              <div className="bg-white p-6 rounded-lg border border-gray-100">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                </div>
-              </div>
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
             </div>
           </div>
         )}
+        
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-        <div className="flex items-center gap-3">
+      {/* Fixed Input Area */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-4">
+        <div className="max-w-4xl mx-auto flex gap-3">
           <Input
+            ref={inputRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Escribe tu respuesta aquí..."
-            className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            placeholder="Escribe tu mensaje..."
+            className="flex-1 rounded-full px-4 py-3 border-gray-200 focus:border-blue-300 focus:ring focus:ring-blue-100"
+            disabled={isWaitingForResponse}
           />
-          <Button
+          <Button 
             onClick={() => handleSendMessage(inputValue)}
             disabled={!inputValue.trim() || isWaitingForResponse}
-            size="sm"
-            className="rounded-full px-4"
+            className="rounded-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white"
           >
-            <SendIcon size={16} />
+            <SendIcon className="w-4 h-4" />
           </Button>
         </div>
       </div>
