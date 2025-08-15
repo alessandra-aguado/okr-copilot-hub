@@ -1,58 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* OKR Consultant Design System */
 
 @layer base {
   :root {
+    /* Brand Colors */
+    --brand-teal: 179 100% 39%;
+    --brand-indigo: 231 48% 48%;
+    --brand-white: 0 0% 100%;
+    
+    /* Text Colors */
+    --text-primary: 0 0% 13%;
+    --text-secondary: 0 0% 27%;
+    --text-muted: 0 0% 60%;
+    --text-placeholder: 0 0% 60%;
+    
+    /* UI Colors */
+    --surface-glass: 0 0% 100%;
+    --border-light: 0 0% 87%;
+    --hover-surface: 0 0% 94%;
+    --shadow-color: 0 0% 0%;
+    
+    /* Gradients */
+    --gradient-brand: linear-gradient(90deg, hsl(var(--brand-teal)), hsl(var(--brand-indigo)));
+    --gradient-subtle: linear-gradient(135deg, hsl(var(--surface-glass) / 0.8), hsl(var(--surface-glass) / 0.4));
+    
+    /* Shadows - Neomorphism */
+    --shadow-neumorphic: 0px 2px 10px hsl(var(--shadow-color) / 0.08);
+    --shadow-neumorphic-hover: 0px 4px 20px hsl(var(--shadow-color) / 0.12);
+    --shadow-subtle: 0px 1px 3px hsl(var(--shadow-color) / 0.1);
+    
+    /* Spacing & Animation */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-pill: 9999px;
+    --radius-card: 16px;
+    
+    /* Standard system colors for compatibility */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 0 0% 13%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 0 0% 13%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --popover-foreground: 0 0% 13%;
+    --primary: 179 100% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 13%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 13%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 87%;
+    --input: 0 0% 100%;
+    --ring: 179 100% 39%;
+    --radius: 16px;
   }
 
   .dark {
@@ -100,6 +107,37 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+@layer components {
+  .gradient-brand {
+    background: var(--gradient-brand);
+  }
+  
+  .shadow-neumorphic {
+    box-shadow: var(--shadow-neumorphic);
+  }
+  
+  .shadow-neumorphic-hover {
+    box-shadow: var(--shadow-neumorphic-hover);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .text-brand-primary {
+    color: hsl(var(--text-primary));
+  }
+  
+  .text-brand-secondary {
+    color: hsl(var(--text-secondary));
+  }
+  
+  .text-brand-muted {
+    color: hsl(var(--text-muted));
   }
 }
