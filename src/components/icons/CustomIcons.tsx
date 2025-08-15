@@ -127,6 +127,7 @@ export const ActivityIcon = ({ size = 16, className = "" }: IconProps) => (
   </svg>
 );
 
+// Classic Gear Icon for Settings
 export const SettingsIcon = ({ size = 16, className = "" }: IconProps) => (
   <svg
     width={size}
@@ -139,11 +140,81 @@ export const SettingsIcon = ({ size = 16, className = "" }: IconProps) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="8" cy="8" r="2.5" />
-    <path d="M13.5 8a5.5 5.5 0 0 0-.4-2l-1.5.9a3.5 3.5 0 0 1 0 2.2l1.5.9a5.5 5.5 0 0 0 .4-2z" />
-    <path d="M2.5 8a5.5 5.5 0 0 0 .4 2l1.5-.9a3.5 3.5 0 0 1 0-2.2L2.9 6a5.5 5.5 0 0 0-.4 2z" />
-    <path d="M8 2.5a5.5 5.5 0 0 0-2 .4l.9 1.5a3.5 3.5 0 0 1 2.2 0L10 2.9a5.5 5.5 0 0 0-2-.4z" />
-    <path d="M8 13.5a5.5 5.5 0 0 0 2-.4l-.9-1.5a3.5 3.5 0 0 1-2.2 0L6 13.1a5.5 5.5 0 0 0 2 .4z" />
+    <circle cx="8" cy="8" r="2" />
+    <path d="M8 1v2.5M8 12.5V15M15 8h-2.5M3.5 8H1" />
+    <path d="m13.4 4.6-1.8 1.8M4.4 11.4l-1.8 1.8M13.4 11.4l-1.8-1.8M4.4 4.6l-1.8-1.8" />
+  </svg>
+);
+
+// Toolbox Icon for Resources
+export const ToolboxIcon = ({ size = 16, className = "" }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M4 3h8v2H4z" />
+    <path d="M2 6h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6z" />
+    <path d="M6 6v2M10 6v2" />
+    <path d="M5 3V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" />
+  </svg>
+);
+
+// Small Plus Icon
+export const SmallPlusIcon = ({ size = 16, className = "" }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M8 3v10M3 8h10" />
+  </svg>
+);
+
+// Microphone Icon
+export const MicrophoneIcon = ({ size = 16, className = "" }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M8 1a2 2 0 0 1 2 2v4a2 2 0 0 1-4 0V3a2 2 0 0 1 2-2z" />
+    <path d="M4 7v0a4 4 0 0 0 8 0v0M8 11v4M6 15h4" />
+  </svg>
+);
+
+// Send Icon
+export const SendIcon = ({ size = 16, className = "" }: IconProps) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M15 1 1 6l4 2 2 4 8-11z" />
   </svg>
 );
 

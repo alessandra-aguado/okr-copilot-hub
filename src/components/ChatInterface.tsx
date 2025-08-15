@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Mic, Send, Search } from "lucide-react";
+import { SmallPlusIcon, MicrophoneIcon, SendIcon } from "@/components/icons/CustomIcons";
 
 const ChatInterface = () => {
   const [inputValue, setInputValue] = useState("");
@@ -14,11 +14,10 @@ const ChatInterface = () => {
   ];
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-8 flex flex-col items-center space-y-8">
+    <div className="w-full max-w-4xl mx-auto px-8 flex flex-col items-center space-y-6">
       {/* Main Question - Apple Style */}
       <div className="text-center space-y-3">
-        <Search className="h-8 w-8 text-primary mx-auto mb-4" />
-        <h1 className="text-adaptive-title text-primary tracking-tight">
+        <h1 className="text-adaptive-title gradient-text tracking-tight">
           ¿Qué OKR deseas trabajar hoy?
         </h1>
         <p className="text-adaptive-subtitle text-secondary" style={{ 
@@ -33,23 +32,23 @@ const ChatInterface = () => {
       {/* Main Input - Central Focus with Apple-style shadow */}
       <div className="w-full max-w-2xl">
         <div className="bg-white rounded-2xl shadow-apple-input">
-          <div className="flex items-center p-3">
+          <div className="flex items-center p-2">
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale"
+              className="rounded-full h-8 w-8 hover:bg-hover-surface hover-scale"
               style={{ color: '#999999' }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
             >
-              <Plus className="h-2.5 w-2.5" />
+              <SmallPlusIcon size={20} />
             </Button>
             
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Describe tu objetivo o pregunta sobre OKRs..."
-              className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-10 focus-apple"
+              className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-8 focus-apple"
               style={{ 
                 color: '#1C1C1E',
                 fontSize: '14px',
@@ -61,12 +60,12 @@ const ChatInterface = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full h-10 w-10 hover:bg-hover-surface hover-scale"
+              className="rounded-full h-8 w-8 hover:bg-hover-surface hover-scale"
               style={{ color: '#999999' }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
             >
-              {inputValue ? <Send className="h-2.5 w-2.5" /> : <Mic className="h-2.5 w-2.5" />}
+              {inputValue ? <SendIcon size={20} /> : <MicrophoneIcon size={20} />}
             </Button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { PlusIcon, TargetIcon, ListIcon, HistoryIcon, BookIcon, HelpIcon, ActivityIcon, SettingsIcon, ChevronDownIcon, MenuIcon, FileIcon, FolderIcon } from "@/components/icons/CustomIcons";
+import { PlusIcon, TargetIcon, ListIcon, HistoryIcon, BookIcon, HelpIcon, ActivityIcon, SettingsIcon, ToolboxIcon, ChevronDownIcon, MenuIcon, FileIcon, FolderIcon } from "@/components/icons/CustomIcons";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -60,10 +60,10 @@ const AppSidebar = ({
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-center w-full">
-          
+          {/* Logo space reserved for isotipo */}
         </div>
         <Button variant="ghost" size="icon" onClick={onToggle} className="h-8 w-8 text-sidebar-text hover:text-sidebar-text hover:bg-sidebar-hover">
-          <MenuIcon className="h-3.5 w-3.5" />
+          <MenuIcon size={20} className="text-[#404040]" />
         </Button>
       </div>
 
@@ -72,22 +72,18 @@ const AppSidebar = ({
         {isCollapsed ? <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="pill" size="icon" className="w-full h-10" asChild>
-                  <NavLink to="/new">
-                    <PlusIcon className="h-3.5 w-3.5" />
-                  </NavLink>
-                </Button>
+                <div className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-md hover:from-[#00c0b0] hover:to-[#0060c7] transition-all cursor-pointer">
+                  <PlusIcon size={16} />
+                </div>
               </TooltipTrigger>
               <TooltipContent side="right">
                 <p>Nuevo OKR</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider> : <Button variant="pill" className="w-full justify-start space-2" asChild>
-            <NavLink to="/new">
-              <PlusIcon className="h-3.5 w-3.5" />
-              <span className="ml-2 sidebar-menu-item">Nuevo OKR</span>
-            </NavLink>
-          </Button>}
+          </TooltipProvider> : <NavLink to="/new" className="flex items-center gap-2 py-3 px-4 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-md hover:from-[#00c0b0] hover:to-[#0060c7] transition-all">
+            <PlusIcon size={16} />
+            <span className="text-sm font-medium">Nuevo OKR</span>
+          </NavLink>}
       </div>
 
       {/* Navigation */}
@@ -101,22 +97,18 @@ const AppSidebar = ({
               {isCollapsed ? <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button variant="sidebar" size="icon" className={cn("w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active", isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold")} asChild>
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
-                        </NavLink>
-                      </Button>
+                      <NavLink to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
+                        <item.icon size={20} className="text-[#404040]" />
+                      </NavLink>
                     </TooltipTrigger>
                     <TooltipContent side="right">
                       <p>{item.title}</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider> : <Button variant="sidebar" className={cn("w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active", isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold")} asChild>
-                  <NavLink to={item.url}>
-                    <item.icon className="h-4 w-4" />
-                    <span className="ml-2 truncate sidebar-menu-item">{item.title}</span>
-                  </NavLink>
-                </Button>}
+                </TooltipProvider> : <NavLink to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
+                  <item.icon size={20} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]">{item.title}</span>
+                </NavLink>}
             </div>)}
         </div>
 
@@ -125,9 +117,9 @@ const AppSidebar = ({
           {isCollapsed ? <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="sidebar" size="icon" className="w-full h-10">
-                    <BookIcon className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md">
+                    <ToolboxIcon size={20} className="text-[#404040]" />
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">
                   <p>Recursos</p>
@@ -135,19 +127,17 @@ const AppSidebar = ({
               </Tooltip>
             </TooltipProvider> : <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
-                <Button variant="sidebar" className="w-full">
-                  <BookIcon className="h-4 w-4" />
-                  <span className="ml-2 sidebar-tools-title">Recursos</span>
-                  <ChevronDownIcon className={cn("h-3.5 w-3.5 ml-auto transition-transform", isToolsOpen && "rotate-180")} />
-                </Button>
+                <div className="flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md cursor-pointer">
+                  <ToolboxIcon size={20} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]">Recursos</span>
+                  <ChevronDownIcon size={20} className={cn("ml-auto transition-transform text-[#404040]", isToolsOpen && "rotate-180")} />
+                </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-1 ml-4">
-                {resourcesItems.map(item => <Button key={item.title} variant="sidebar" className={cn("w-full text-sm", isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active")} asChild>
-                    <NavLink to={item.url}>
-                      <item.icon className="h-3.5 w-3.5" />
-                      <span className="ml-2 sidebar-submenu-item">{item.title}</span>
-                    </NavLink>
-                  </Button>)}
+                {resourcesItems.map(item => <NavLink key={item.title} to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
+                    <item.icon size={20} className="text-[#404040]" />
+                    <span className="text-sm font-medium text-[#404040]">{item.title}</span>
+                  </NavLink>)}
               </CollapsibleContent>
             </Collapsible>}
         </div>
@@ -161,22 +151,18 @@ const AppSidebar = ({
               {isCollapsed ? <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button variant="sidebar" size="icon" className={cn("w-full h-10 text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active", isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold")} asChild>
-                        <NavLink to={item.url}>
-                          <item.icon className="h-4 w-4" />
-                        </NavLink>
-                      </Button>
+                      <NavLink to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
+                        <item.icon size={20} className="text-[#404040]" />
+                      </NavLink>
                     </TooltipTrigger>
                     <TooltipContent side="right">
                       <p>{item.title}</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider> : <Button variant="sidebar" className={cn("w-full text-sidebar-text font-medium hover:bg-sidebar-hover hover:text-sidebar-active", isActive(item.url) && "bg-sidebar-active-bg text-sidebar-active font-semibold")} asChild>
-                  <NavLink to={item.url}>
-                    <item.icon className="h-4 w-4" />
-                    <span className="ml-2 truncate sidebar-menu-item">{item.title}</span>
-                  </NavLink>
-                </Button>}
+                </TooltipProvider> : <NavLink to={item.url} className={cn("flex items-center gap-2 py-2 px-4 hover:bg-[#f0f0f0] rounded-md", isActive(item.url) && "bg-[#f0f0f0]")}>
+                  <item.icon size={20} className="text-[#404040]" />
+                  <span className="text-sm font-medium text-[#404040]">{item.title}</span>
+                </NavLink>}
             </div>)}
         </div>
       </div>

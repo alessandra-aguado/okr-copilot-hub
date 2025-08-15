@@ -21,7 +21,7 @@ const Index = () => {
       <div className={`main-content ${sidebarCollapsed ? 'main-content-collapsed' : ''}`}>
         <Header />
         
-        <main className="flex-1 flex items-center justify-center py-16 bg-bg-primary min-h-screen">
+        <main className="flex-1 flex items-center justify-center py-8 bg-bg-primary min-h-[calc(100vh-140px)]">
           <div className="w-full max-w-[980px] mx-auto">
             <ChatInterface />
           </div>
