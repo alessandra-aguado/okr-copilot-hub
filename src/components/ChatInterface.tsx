@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { SmallPlusIcon, MicrophoneIcon, SendIcon } from "@/components/icons/CustomIcons";
+import { PlusIcon, MicrophoneIcon, SendIconWithBackground } from "@/components/icons/CustomIcons";
 
 const ChatInterface = () => {
   const [inputValue, setInputValue] = useState("");
@@ -42,7 +42,7 @@ const ChatInterface = () => {
                 onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
                 onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
               >
-                <SmallPlusIcon size={20} />
+                <PlusIcon size={20} />
               </Button>
               
               <Input
@@ -66,7 +66,7 @@ const ChatInterface = () => {
                 onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
                 onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
               >
-                {inputValue ? <SendIcon size={20} /> : <MicrophoneIcon size={20} />}
+                {inputValue ? <SendIconWithBackground size={32} /> : <MicrophoneIcon size={20} />}
               </Button>
             </div>
           </div>
