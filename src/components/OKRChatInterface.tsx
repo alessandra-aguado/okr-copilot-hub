@@ -2,10 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
-import { Card } from './ui/card';
-import { Separator } from './ui/separator';
-import { Send, FileText, Bot, User, Paperclip } from 'lucide-react';
-
+import { Send, FileText, Paperclip } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -379,12 +376,12 @@ KR4: Transformación cultural
 • ¿Qué refleja la adopción cultural?
 • ¿Cómo la vas a evaluar?
 
-Puedes responder por partes si gustas, estoy listo para leerte 📝`,
+Puedes responder por partes si gustas, estoy listo para leerte`,
       suggestions: []
     }
   },
   {
-    userInput: "1.Estamos aplicando IA en procesos de gestión",
+    userInput: "1.Estamos aplicando IA en procesos de gestión de reportes",
     consultantResponse: {
       content: `¡Gracias por compartir tus respuestas!
 
@@ -394,13 +391,13 @@ Con base en lo que me diste, he reformulado tus KR's para que tengan estructura 
 
 KR's Reformulados:
 
-Reducir en [%] el costo de procesos clave mediante iniciativas de IA, reflejado en el [sistema de medición].
+1. Reducir en [%] el costo de procesos clave mediante iniciativas de IA, reflejado en el [sistema de medición].
 
-Incrementar el nivel promedio de madurez en Gestión de Proyectos de [%] a [%] según assessment institucional.
+2. Incrementar el nivel promedio de madurez en Gestión de Proyectos de [%] a [%] según assessment institucional.
 
-Alcanzar un [%] de adopción efectiva del Framework ACIF en las unidades estratégicas de la organización.
+3. Alcanzar un [%] de adopción efectiva del Framework ACIF en las unidades estratégicas de la organización.
 
-Lograr [%] de adopción del modelo de Transformación Cultural según [sistema de medición].
+4. Lograr [%] de adopción del modelo de Transformación Cultural según [sistema de medición].
 
 Diagnóstico
 
@@ -426,7 +423,7 @@ Es importante completarlos con el porcentaje meta y el sistema de medición que 
     consultantResponse: {
       content: `Perfecto 👍. Vamos a completar estos KR's con los porcentajes meta y los sistemas de medición que usarás para darles seguimiento.
 
-Compárteme la información que falta en cada uno:
+Comparteme la información que falta en cada uno:
 
 KR1: Reducir en [%] el costo de los procesos clave mediante la implementación de iniciativas de inteligencia artificial, medido a través del indicador [nombre de la métrica o sistema de medición].
 
@@ -449,13 +446,13 @@ Aquí tienes el análisis de diagnóstico:
 
 KR's reformulados:
 
-Reducir en 10% el costo de procesos clave mediante iniciativas de IA, reflejado en el IPG.
+1. Reducir en 10% el costo de procesos clave mediante iniciativas de IA, reflejado en el IPG.
 
-Incrementar el nivel promedio de madurez en Gestión de Proyectos de 20% a 40% según assessment institucional.
+2. Incrementar el nivel promedio de madurez en Gestión de Proyectos de 20% a 40% según assessment institucional.
 
-Alcanzar un 90% de adopción efectiva del Framework ACIF en las unidades estratégicas de la organización.
+3. Alcanzar un 90% de adopción efectiva del Framework ACIF en las unidades estratégicas de la organización.
 
-Lograr 70% de adopción del modelo de Transformación Cultural según índice de implementación institucional.
+4. Lograr 70% de adopción del modelo de Transformación Cultural según índice de implementación institucional.
 
 Diagnóstico
 
@@ -501,419 +498,243 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
 const OKRChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
+  const [conversationStep, setConversationStep] = useState(0);
+  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const scrollToBottom = () => {
-    if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
-      }
+  // Initialize with first message
+  useEffect(() => {
+    if (conversationStep === 0) {
+      const firstMessage: ChatMessage = {
+        id: '1',
+        type: 'consultant',
+        content: conversationFlow[0].consultantResponse.content,
+        suggestions: conversationFlow[0].consultantResponse.suggestions,
+        timestamp: new Date()
+      };
+      setMessages([firstMessage]);
+      setIsWaitingForInput(true);
     }
-  };
+  }, [conversationStep]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage(inputValue);
+  const handleSendMessage = (content: string) => {
+    if (!content.trim() && attachedFiles.length === 0) return;
+
+    // Create user message with file attachments
+    let messageContent = content;
+    if (attachedFiles.length > 0) {
+      const fileList = attachedFiles.map(file => `[📄 ${file.name}]`).join(' ');
+      messageContent = content ? `${content}\n${fileList}` : fileList;
     }
-  };
-
-  const findConsultantResponse = (userMessage: string, step: number): ChatMessage => {
-    const normalizedMessage = userMessage.toLowerCase();
-    
-    // Use step-based logic to follow the conversation flow
-    if (step < conversationFlow.length) {
-      // Step 0: User clicks "crear okr"
-      if (step === 0 && normalizedMessage.includes("crear okr")) {
-        return createConsultantMessage(conversationFlow[0].consultantResponse);
-      }
-      
-      // Step 1: User provides OKRs from Attach
-      if (step === 1 && (normalizedMessage.includes("attach") || 
-           normalizedMessage.includes("impulsar una evolución") ||
-           normalizedMessage.includes("aumentar la satisfacción") ||
-           normalizedMessage.includes("elevar la rentabilidad") ||
-           normalizedMessage.includes("incrementar el índice") ||
-           normalizedMessage.includes("evolucionar la madurez"))) {
-        return createConsultantMessage(conversationFlow[1].consultantResponse);
-      }
-      
-      // Step 2: User mentions transcription
-      if (step === 2 && (normalizedMessage.includes("transcripción") || 
-           normalizedMessage.includes("transcripcion") ||
-           normalizedMessage.includes("tengo la transcripción"))) {
-        return createConsultantMessage(conversationFlow[2].consultantResponse);
-      }
-      
-      // Step 3: User describes their role
-      if (step === 3 && (normalizedMessage.includes("líder") || 
-           normalizedMessage.includes("lider") ||
-           normalizedMessage.includes("coe") ||
-           normalizedMessage.includes("innovación") ||
-           normalizedMessage.includes("innovacion"))) {
-        return createConsultantMessage(conversationFlow[3].consultantResponse);
-      }
-      
-      // Step 4: User confirms OKR experience
-      if (step === 4 && (normalizedMessage.includes("sí") || 
-           normalizedMessage.includes("si") ||
-           normalizedMessage.includes("cuatrimestres"))) {
-        return createConsultantMessage(conversationFlow[4].consultantResponse);
-      }
-      
-      // Step 5: User confirms diagnosis
-      if (step === 5 && (normalizedMessage.includes("correcto") || 
-           normalizedMessage.includes("sí") ||
-           normalizedMessage.includes("si"))) {
-        return createConsultantMessage(conversationFlow[5].consultantResponse);
-      }
-      
-      // Step 6: User says they have objective in mind
-      if (step === 6 && normalizedMessage.includes("ya tengo uno en mente")) {
-        return createConsultantMessage(conversationFlow[6].consultantResponse);
-      }
-      
-      // Step 7: User shares initial objective
-      if (step === 7 && (normalizedMessage.includes("asegurar") && 
-           normalizedMessage.includes("procesos internos"))) {
-        return createConsultantMessage(conversationFlow[7].consultantResponse);
-      }
-      
-      // Step 8: User wants to improve step by step
-      if (step === 8 && normalizedMessage.includes("paso a paso")) {
-        return createConsultantMessage(conversationFlow[8].consultantResponse);
-      }
-      
-      // Step 9: User answers detailed questions
-      if (step === 9 && normalizedMessage.includes("desde mi unidad")) {
-        return createConsultantMessage(conversationFlow[9].consultantResponse);
-      }
-      
-      // Step 10: User wants direct reformulation
-      if (step === 10 && normalizedMessage.includes("directamente")) {
-        return createConsultantMessage(conversationFlow[10].consultantResponse);
-      }
-      
-      // Step 11: User wants to adjust
-      if (step === 11 && normalizedMessage.includes("ajustar")) {
-        return createConsultantMessage(conversationFlow[11].consultantResponse);
-      }
-      
-      // Step 12: User provides new objective
-      if (step === 12 && normalizedMessage.includes("convertir la innovación")) {
-        return createConsultantMessage(conversationFlow[12].consultantResponse);
-      }
-      
-      // Step 13: User wants to define KRs
-      if (step === 13 && normalizedMessage.includes("definir mis kr")) {
-        return createConsultantMessage(conversationFlow[13].consultantResponse);
-      }
-      
-      // Step 14: User wants to share KRs
-      if (step === 14 && normalizedMessage.includes("comparto mis kr")) {
-        return createConsultantMessage(conversationFlow[14].consultantResponse);
-      }
-      
-      // Step 15: User shares KRs
-      if (step === 15 && normalizedMessage.includes("estos son mis kr")) {
-        return createConsultantMessage(conversationFlow[15].consultantResponse);
-      }
-      
-      // Step 16: User wants to refine question by question
-      if (step === 16 && normalizedMessage.includes("pregunta por pregunta")) {
-        return createConsultantMessage(conversationFlow[16].consultantResponse);
-      }
-      
-      // Step 17: User answers KR questions
-      if (step === 17 && normalizedMessage.includes("estamos aplicando ia")) {
-        return createConsultantMessage(conversationFlow[17].consultantResponse);
-      }
-      
-      // Step 18: User wants to apply KRs and complete info
-      if (step === 18 && normalizedMessage.includes("completar la información")) {
-        return createConsultantMessage(conversationFlow[18].consultantResponse);
-      }
-      
-      // Step 19: User shares final KRs
-      if (step === 19 && normalizedMessage.includes("le hice algunas mejoras")) {
-        return createConsultantMessage(conversationFlow[19].consultantResponse);
-      }
-      
-      // Step 20: User wants to define initiatives
-      if (step === 20 && normalizedMessage.includes("definir las iniciativas")) {
-        return createConsultantMessage(conversationFlow[20].consultantResponse);
-      }
-    }
-
-    // Default response
-    return createConsultantMessage({
-      content: "Gracias por tu respuesta. ¿Podrías proporcionarme más detalles para continuar con el desarrollo de tus OKRs?",
-      suggestions: [
-        "Necesito más contexto",
-        "Continuar con el siguiente paso",
-        "Ver un ejemplo"
-      ]
-    });
-  };
-
-  const createConsultantMessage = (response: any): ChatMessage => {
-    return {
-      id: Date.now().toString(),
-      type: 'consultant',
-      content: response.content,
-      suggestions: response.suggestions || [],
-      timestamp: new Date()
-    };
-  };
-
-  const handleSendMessage = async (message: string) => {
-    if (!message.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       type: 'user',
-      content: message,
+      content: messageContent,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
-    setIsLoading(true);
+    setAttachedFiles([]);
 
-    setTimeout(() => {
-      const consultantResponse = findConsultantResponse(message, currentStep);
-      setMessages(prev => [...prev, consultantResponse]);
-      setCurrentStep(prev => prev + 1);
-      setIsLoading(false);
-    }, 1000);
+    // Check conversation flow and respond accordingly
+    const currentFlow = conversationFlow[conversationStep];
+    if (currentFlow && content.toLowerCase().includes(currentFlow.userInput.toLowerCase())) {
+      // Move to next step
+      if (conversationStep < conversationFlow.length - 1) {
+        setTimeout(() => {
+          const nextStep = conversationStep + 1;
+          const consultantMessage: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            type: 'consultant',
+            content: conversationFlow[nextStep].consultantResponse.content,
+            suggestions: conversationFlow[nextStep].consultantResponse.suggestions,
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, consultantMessage]);
+          setConversationStep(nextStep);
+        }, 1000);
+      }
+    } else {
+      // Handle other inputs with generic response
+      setTimeout(() => {
+        const consultantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'consultant',
+          content: "Entiendo. ¿Podrías proporcionarme más detalles para poder ayudarte mejor?",
+          suggestions: [],
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, consultantMessage]);
+      }, 1000);
+    }
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     handleSendMessage(suggestion);
   };
 
-  const handleStartConversation = () => {
-    handleSendMessage("crear okr");
+  const handleFileAttach = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setAttachedFiles(prev => [...prev, ...files]);
+  };
+
+  const removeFile = (index: number) => {
+    setAttachedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-[calc(100vh-120px)] max-w-4xl mx-auto bg-background">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-            <Bot className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <div>
-            <h2 className="font-semibold text-foreground">Consultor de OKRs</h2>
-            <p className="text-xs text-muted-foreground">Especialista en metodología OKR</p>
-          </div>
-        </div>
+      <div className="p-6 border-b border-border">
+        <h1 className="text-2xl font-semibold text-foreground mb-2">OKR Consultant</h1>
+        <p 
+          className="text-muted-foreground font-normal" 
+          style={{ 
+            fontSize: '16px', 
+            fontFamily: 'Open Sans, sans-serif',
+            fontWeight: 400 
+          }}
+        >
+          Tu asistente especializado en la construcción de OKRs estratégicos
+        </p>
       </div>
 
-      {/* Chat Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 bg-white">
-        <div className="space-y-2 max-w-none">
-          {messages.length === 0 && (
-            <div className="text-center py-8">
-              <div className="mb-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Bot className="w-8 h-8 text-primary" />
+      {/* Messages Area */}
+      <ScrollArea className="flex-1 p-6">
+        <div className="space-y-8">
+          {messages.map((message) => (
+            <div key={message.id}>
+              {/* Message */}
+              <div
+                className={`flex ${
+                  message.type === 'user' ? 'justify-end' : 'justify-start'
+                }`}
+              >
+                <div
+                  className={`max-w-[65%] ${
+                    message.type === 'user'
+                      ? 'bg-[#E0F2FE] text-foreground rounded-xl px-4 py-3'
+                      : 'bg-background text-foreground'
+                  }`}
+                  style={{
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    lineHeight: message.type === 'user' ? '1.5' : '1.6'
+                  }}
+                >
+                  <div className="whitespace-pre-wrap text-foreground">
+                    {message.content}
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  ¡Hola! Soy tu consultor de OKRs
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Te ayudo a crear OKRs alineados y efectivos para tu unidad. 
-                  Empecemos construyendo tu OKR paso a paso.
-                </p>
-                <Button onClick={handleStartConversation} className="mb-4">
-                  Crear OKR para mi unidad
-                </Button>
               </div>
-            </div>
-          )}
 
-          {messages.map((message, index) => (
-            <div key={message.id} className="mb-2">
-              {message.type === 'user' ? (
-                // User Message - Right aligned with light blue background
-                <div className="flex justify-end">
-                  <div 
-                    className="max-w-[65%] rounded-xl p-3 mb-2"
-                    style={{
-                      backgroundColor: '#E0F2FE',
-                      borderRadius: '12px',
-                      padding: '12px 14px',
-                      fontFamily: 'Open Sans, sans-serif',
-                      fontSize: '16px',
-                      fontWeight: '400',
-                      color: '#111827',
-                      lineHeight: '1.5'
-                    }}
-                  >
-                    <p className="whitespace-pre-wrap">{message.content}</p>
-                  </div>
-                </div>
-              ) : (
-                // Bot Message - Left aligned, full width, white background
-                <div className="w-full">
-                  <div 
-                    className="w-full bg-white p-0 mb-2"
-                    style={{
-                      fontFamily: 'Open Sans, sans-serif',
-                      fontSize: '16px',
-                      fontWeight: '400',
-                      color: '#111827',
-                      lineHeight: '1.6'
-                    }}
-                  >
-                    <div className="whitespace-pre-wrap">{message.content}</div>
-                  </div>
-                  
-                  {/* Suggestion Bubbles - Copilot style */}
-                  {message.suggestions && message.suggestions.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-2 mt-3 mb-4">
-                      {message.suggestions.map((suggestion, suggestionIndex) => (
-                        <button
-                          key={suggestionIndex}
-                          onClick={() => handleSuggestionClick(suggestion)}
-                          className="transition-colors duration-200"
-                          style={{
-                            backgroundColor: '#F3F4F6',
-                            borderRadius: '20px',
-                            padding: '10px 16px',
-                            fontSize: '15px',
-                            color: '#111827',
-                            border: 'none',
-                            cursor: 'pointer',
-                            fontFamily: 'Open Sans, sans-serif'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#E5E7EB';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = '#F3F4F6';
-                          }}
-                        >
-                          {suggestion}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+              {/* Suggestions */}
+              {message.type === 'consultant' && message.suggestions && message.suggestions.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-3 mt-6">
+                  {message.suggestions.slice(0, 3).map((suggestion, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="bg-[#F3F4F6] hover:bg-[#E5E7EB] text-foreground border-transparent rounded-[20px]"
+                      style={{
+                        fontFamily: 'Open Sans, sans-serif',
+                        fontSize: '15px',
+                        padding: '10px 16px'
+                      }}
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
                 </div>
               )}
             </div>
           ))}
-
-          {isLoading && (
-            <div className="w-full">
-              <div 
-                className="w-full bg-white p-0 mb-2"
-                style={{
-                  fontFamily: 'Open Sans, sans-serif',
-                  fontSize: '16px',
-                  fontWeight: '400',
-                  color: '#111827',
-                  lineHeight: '1.6'
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                  </div>
-                  <span className="text-sm text-gray-500">Escribiendo...</span>
-                </div>
-              </div>
-            </div>
-          )}
+          <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
 
-      {/* Fixed Input Area at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
-        <div className="flex justify-center">
-          <div className="w-full max-w-[800px] relative">
-            <div className="flex items-center gap-2">
-              {/* Paperclip Icon for Attachments */}
-              <button 
-                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
-                onClick={() => {
-                  // File attachment functionality placeholder
-                  const input = document.createElement('input');
-                  input.type = 'file';
-                  input.accept = '.pdf,.doc,.docx';
-                  input.onchange = (e) => {
-                    const file = (e.target as HTMLInputElement).files?.[0];
-                    if (file) {
-                      handleSendMessage(`📄 PDF - ${file.name}`);
-                    }
-                  };
-                  input.click();
-                }}
-              >
-                <Paperclip className="w-5 h-5" />
-              </button>
-              
-              {/* Input Field */}
-              <div className="flex-1 relative">
-                <input
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  disabled={isLoading}
-                  className="w-full min-h-[44px] border-gray-300 resize-none focus:ring-blue-500 focus:border-blue-500"
-                  style={{
-                    backgroundColor: 'white',
-                    border: '1px solid #E5E7EB',
-                    borderRadius: '22px',
-                    padding: '12px 50px 12px 16px',
-                    fontFamily: 'Open Sans, sans-serif',
-                    fontSize: '15px',
-                    color: '#111827',
-                    outline: 'none'
-                  }}
-                  placeholder="Escribe tu mensaje aquí..."
-                />
-                
-                {/* Send Button */}
+      {/* Input Area */}
+      <div className="border-t border-border p-6">
+        {/* File attachments preview */}
+        {attachedFiles.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            {attachedFiles.map((file, index) => (
+              <div key={index} className="flex items-center space-x-2 bg-muted rounded-lg px-3 py-2">
+                <FileText className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-foreground">{file.name}</span>
                 <button
-                  onClick={() => handleSendMessage(inputValue)}
-                  disabled={!inputValue.trim() || isLoading}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 transition-colors duration-200"
-                  style={{
-                    color: !inputValue.trim() || isLoading ? '#9CA3AF' : '#3B82F6'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!(!inputValue.trim() || isLoading)) {
-                      e.currentTarget.style.color = '#2563EB';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!(!inputValue.trim() || isLoading)) {
-                      e.currentTarget.style.color = '#3B82F6';
-                    }
-                  }}
+                  onClick={() => removeFile(index)}
+                  className="text-muted-foreground hover:text-foreground"
                 >
-                  <Send className="w-5 h-5" />
+                  ×
                 </button>
               </div>
-            </div>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center space-x-3 max-w-[800px] mx-auto w-[90%]">
+          <button
+            onClick={handleFileAttach}
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Paperclip className="w-5 h-5" />
+          </button>
+          
+          <div className="flex-1 relative">
+            <Input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Escribe tu mensaje…"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendMessage(inputValue);
+                }
+              }}
+              className="pr-12 py-3 min-h-[44px] rounded-[22px] border-[#E5E7EB] bg-background focus:border-[#3B82F6] focus:ring-[#3B82F6]"
+              style={{
+                fontFamily: 'Open Sans, sans-serif',
+                fontSize: '15px'
+              }}
+            />
+            <button
+              onClick={() => handleSendMessage(inputValue)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-[#3B82F6] hover:text-[#2563EB] transition-colors"
+            >
+              <Send className="w-5 h-5" />
+            </button>
           </div>
         </div>
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+          multiple
+          accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg"
+        />
       </div>
-      
-      {/* Bottom spacer to account for fixed input */}
-      <div className="h-20"></div>
     </div>
   );
 };
