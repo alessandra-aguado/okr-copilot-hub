@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send } from "lucide-react";
+import { SendIcon } from "@/components/icons/CustomIcons";
 import PDFAttachment from "./PDFAttachment";
 
 interface ChatMessage {
@@ -617,7 +617,7 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
               onClick={() => handleSendMessage(inputValue)}
               disabled={!inputValue.trim() || isWaitingForResponse}
             >
-              <Send size={20} />
+              <SendIcon size={20} />
             </Button>
           </div>
         </div>
