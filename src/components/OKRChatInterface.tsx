@@ -4,7 +4,7 @@ import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Card } from './ui/card';
 import { Separator } from './ui/separator';
-import { Send, FileText, Bot, User } from 'lucide-react';
+import { Send, FileText, Bot, User, Paperclip } from 'lucide-react';
 
 
 interface ChatMessage {
@@ -704,7 +704,7 @@ const OKRChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-3">
@@ -719,8 +719,8 @@ const OKRChatInterface: React.FC = () => {
       </div>
 
       {/* Chat Area */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
-        <div className="space-y-4 max-w-4xl mx-auto">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 bg-white">
+        <div className="space-y-2 max-w-none">
           {messages.length === 0 && (
             <div className="text-center py-8">
               <div className="mb-4">
@@ -741,90 +741,179 @@ const OKRChatInterface: React.FC = () => {
             </div>
           )}
 
-          {messages.map((message) => (
-            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex gap-3 max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  message.type === 'user' 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-secondary text-secondary-foreground'
-                }`}>
-                  {message.type === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+          {messages.map((message, index) => (
+            <div key={message.id} className="mb-2">
+              {message.type === 'user' ? (
+                // User Message - Right aligned with light blue background
+                <div className="flex justify-end">
+                  <div 
+                    className="max-w-[65%] rounded-xl p-3 mb-2"
+                    style={{
+                      backgroundColor: '#E0F2FE',
+                      borderRadius: '12px',
+                      padding: '12px 14px',
+                      fontFamily: 'Open Sans, sans-serif',
+                      fontSize: '16px',
+                      fontWeight: '400',
+                      color: '#111827',
+                      lineHeight: '1.5'
+                    }}
+                  >
+                    <p className="whitespace-pre-wrap">{message.content}</p>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Card className={`p-4 ${
-                    message.type === 'user' 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-card text-card-foreground'
-                  }`}>
-                    <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
-                  </Card>
+              ) : (
+                // Bot Message - Left aligned, full width, white background
+                <div className="w-full">
+                  <div 
+                    className="w-full bg-white p-0 mb-2"
+                    style={{
+                      fontFamily: 'Open Sans, sans-serif',
+                      fontSize: '16px',
+                      fontWeight: '400',
+                      color: '#111827',
+                      lineHeight: '1.6'
+                    }}
+                  >
+                    <div className="whitespace-pre-wrap">{message.content}</div>
+                  </div>
                   
+                  {/* Suggestion Bubbles - Copilot style */}
                   {message.suggestions && message.suggestions.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {message.suggestions.map((suggestion, index) => (
-                        <Button
-                          key={index}
-                          variant="outline"
-                          size="sm"
+                    <div className="flex flex-wrap justify-center gap-2 mt-3 mb-4">
+                      {message.suggestions.map((suggestion, suggestionIndex) => (
+                        <button
+                          key={suggestionIndex}
                           onClick={() => handleSuggestionClick(suggestion)}
-                          className="text-xs bg-background hover:bg-accent"
+                          className="transition-colors duration-200"
+                          style={{
+                            backgroundColor: '#F3F4F6',
+                            borderRadius: '20px',
+                            padding: '10px 16px',
+                            fontSize: '15px',
+                            color: '#111827',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontFamily: 'Open Sans, sans-serif'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#E5E7EB';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#F3F4F6';
+                          }}
                         >
                           {suggestion}
-                        </Button>
+                        </button>
                       ))}
                     </div>
                   )}
                 </div>
-              </div>
+              )}
             </div>
           ))}
 
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="flex gap-3 max-w-[85%]">
-                <div className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
-                  <Bot className="w-4 h-4" />
-                </div>
-                <Card className="p-4 bg-card text-card-foreground">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                    </div>
-                    <span className="text-sm text-muted-foreground">Escribiendo...</span>
+            <div className="w-full">
+              <div 
+                className="w-full bg-white p-0 mb-2"
+                style={{
+                  fontFamily: 'Open Sans, sans-serif',
+                  fontSize: '16px',
+                  fontWeight: '400',
+                  color: '#111827',
+                  lineHeight: '1.6'
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
-                </Card>
+                  <span className="text-sm text-gray-500">Escribiendo...</span>
+                </div>
               </div>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
-      <div className="p-4 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex gap-2">
-            <div className="flex-1 relative">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Escribe tu mensaje..."
-                disabled={isLoading}
-              />
+      {/* Fixed Input Area at Bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div className="flex justify-center">
+          <div className="w-full max-w-[800px] relative">
+            <div className="flex items-center gap-2">
+              {/* Paperclip Icon for Attachments */}
+              <button 
+                className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                onClick={() => {
+                  // File attachment functionality placeholder
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = '.pdf,.doc,.docx';
+                  input.onchange = (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (file) {
+                      handleSendMessage(`📄 PDF - ${file.name}`);
+                    }
+                  };
+                  input.click();
+                }}
+              >
+                <Paperclip className="w-5 h-5" />
+              </button>
+              
+              {/* Input Field */}
+              <div className="flex-1 relative">
+                <input
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={isLoading}
+                  className="w-full min-h-[44px] border-gray-300 resize-none focus:ring-blue-500 focus:border-blue-500"
+                  style={{
+                    backgroundColor: 'white',
+                    border: '1px solid #E5E7EB',
+                    borderRadius: '22px',
+                    padding: '12px 50px 12px 16px',
+                    fontFamily: 'Open Sans, sans-serif',
+                    fontSize: '15px',
+                    color: '#111827',
+                    outline: 'none'
+                  }}
+                  placeholder="Escribe tu mensaje aquí..."
+                />
+                
+                {/* Send Button */}
+                <button
+                  onClick={() => handleSendMessage(inputValue)}
+                  disabled={!inputValue.trim() || isLoading}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 transition-colors duration-200"
+                  style={{
+                    color: !inputValue.trim() || isLoading ? '#9CA3AF' : '#3B82F6'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!(!inputValue.trim() || isLoading)) {
+                      e.currentTarget.style.color = '#2563EB';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!(!inputValue.trim() || isLoading)) {
+                      e.currentTarget.style.color = '#3B82F6';
+                    }
+                  }}
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </div>
-            <Button 
-              onClick={() => handleSendMessage(inputValue)}
-              disabled={!inputValue.trim() || isLoading}
-              size="icon"
-            >
-              <Send className="w-4 h-4" />
-            </Button>
           </div>
         </div>
       </div>
+      
+      {/* Bottom spacer to account for fixed input */}
+      <div className="h-20"></div>
     </div>
   );
 };
