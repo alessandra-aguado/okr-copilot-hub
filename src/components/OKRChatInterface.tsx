@@ -385,9 +385,9 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     setIsWaitingForResponse(true);
     setShowSuggestions(false);
 
-    // Find matching response or provide default
+    // Follow predefined flow regardless of user input
     setTimeout(() => {
-      const consultantResponse = findConsultantResponse(message, currentStep);
+      const consultantResponse = getNextConsultantResponse(currentStep);
       setMessages(prev => [...prev, consultantResponse]);
       setCurrentStep(prev => prev + 1);
       setIsWaitingForResponse(false);
@@ -407,6 +407,19 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     scrollToBottom();
   }, [messages]);
 
+  const getNextConsultantResponse = (step: number): ChatMessage => {
+    // Always return the next response in the predefined flow
+    if (step < conversationFlow.length) {
+      return createConsultantMessage(conversationFlow[step].consultantResponse);
+    }
+    
+    // End of conversation flow
+    return createConsultantMessage({
+      content: "¡Felicitaciones! Has completado el proceso de creación de tus OKRs. Tu objetivo y KRs están listos para ser implementados.",
+      suggestions: ["Revisar mi OKR completo", "Empezar nuevo OKR", "Guardar mis OKRs"]
+    });
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -414,96 +427,6 @@ Ahora el siguiente paso es mapear tus iniciativas para asegurar que cada KR teng
     }
   };
 
-  const findConsultantResponse = (userMessage: string, step: number): ChatMessage => {
-    const normalizedMessage = userMessage.toLowerCase();
-    
-    // Use step-based logic first to avoid conflicts
-    if (step < conversationFlow.length) {
-      // Check for specific step patterns
-      if (step === 0 && normalizedMessage.includes("crear okr")) {
-        return createConsultantMessage(conversationFlow[0].consultantResponse);
-      }
-      
-      // Step 1: User provides OKRs from superior unit (Attach)
-      if (step === 1 && (normalizedMessage.includes("attach") || 
-           normalizedMessage.includes("impulsar una evolución") ||
-           normalizedMessage.includes("impulsar una evolución organizacional") ||
-           normalizedMessage.includes("aumentar la satisfacción promedio del cliente") ||
-           normalizedMessage.includes("elevar la rentabilidad promedio") ||
-           normalizedMessage.includes("incrementar el índice de productividad global") ||
-           normalizedMessage.includes("evolucionar la madurez de los coes") ||
-           normalizedMessage.includes("kr1:") ||
-           normalizedMessage.includes("kr2:") ||
-           normalizedMessage.includes("kr3:") ||
-           normalizedMessage.includes("kr4:"))) {
-        return createConsultantMessage(conversationFlow[1].consultantResponse);
-      }
-      
-      if (step === 2 && (normalizedMessage.includes("transcripción") || 
-          normalizedMessage.includes("tengo la transcripción de la reunión"))) {
-        return createConsultantMessage(conversationFlow[2].consultantResponse);
-      }
-      
-      if (step === 3 && (normalizedMessage.includes("coe") || normalizedMessage.includes("innovación"))) {
-        return createConsultantMessage(conversationFlow[3].consultantResponse);
-      }
-      
-      if (step === 4 && ((normalizedMessage.includes("sí") && normalizedMessage.includes("cuatrimestre")) ||
-          normalizedMessage.includes("ya estamos por iniciar el c3"))) {
-        return createConsultantMessage(conversationFlow[4].consultantResponse);
-      }
-      
-      if (step === 5 && normalizedMessage.includes("correcto")) {
-        return createConsultantMessage(conversationFlow[5].consultantResponse);
-      }
-      
-      if (step === 6 && normalizedMessage.includes("ya tengo")) {
-        return createConsultantMessage(conversationFlow[6].consultantResponse);
-      }
-      
-      if (step === 7 && (normalizedMessage.includes("asegurar") || normalizedMessage.includes("calidad"))) {
-        return createConsultantMessage(conversationFlow[7].consultantResponse);
-      }
-      
-      if (step === 8 && (normalizedMessage.includes("usar") && normalizedMessage.includes("objetivo"))) {
-        return createConsultantMessage(conversationFlow[8].consultantResponse);
-      }
-      
-      if (step === 9 && (normalizedMessage.includes("comparto") && normalizedMessage.includes("kr"))) {
-        return createConsultantMessage(conversationFlow[9].consultantResponse);
-      }
-      
-      if (step === 10 && normalizedMessage.includes("refinar")) {
-        return createConsultantMessage(conversationFlow[10].consultantResponse);
-      }
-      
-      if (step === 11) {
-        return createConsultantMessage(conversationFlow[11].consultantResponse);
-      }
-      
-      if (step === 12 && normalizedMessage.includes("aplicar")) {
-        return createConsultantMessage(conversationFlow[12].consultantResponse);
-      }
-      
-      if (step === 13) {
-        return createConsultantMessage(conversationFlow[13].consultantResponse);
-      }
-      
-      if (step === 14 && normalizedMessage.includes("iniciativas")) {
-        return createConsultantMessage(conversationFlow[14].consultantResponse);
-      }
-    }
-
-    // Default response
-    return createConsultantMessage({
-      content: "Gracias por tu respuesta. ¿Podrías proporcionarme más detalles para continuar con el desarrollo de tus OKRs?",
-      suggestions: [
-        "Necesito más contexto",
-        "Continuar con el siguiente paso",
-        "Ver un ejemplo"
-      ]
-    });
-  };
 
   const createConsultantMessage = (response: any): ChatMessage => {
     return {
