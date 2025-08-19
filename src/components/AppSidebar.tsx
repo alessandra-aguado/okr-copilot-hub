@@ -64,11 +64,12 @@ const AppSidebar = ({
       </div>
 
       {/* New OKR Button */}
-      <div className="px-[6px] pb-4">
-        {isCollapsed ? <TooltipProvider>
+      <div className="px-3 pb-6">
+        {isCollapsed ? (
+          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all cursor-pointer shadow-lg">
+                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all cursor-pointer shadow-lg mx-auto">
                   <PlusIcon size={20} />
                 </div>
               </TooltipTrigger>
@@ -76,24 +77,40 @@ const AppSidebar = ({
                 <p>Nuevo OKR</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider> : <NavLink to="/new" className="flex items-center justify-center gap-2 w-full h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all shadow-lg mx-[6px]">
+          </TooltipProvider>
+        ) : (
+          <NavLink 
+            to="/new" 
+            className="flex items-center justify-center gap-2 w-full h-10 bg-gradient-to-r from-[#00D6C4] to-[#0180E7] text-white rounded-lg hover:from-[#00c0b0] hover:to-[#0060c7] transition-all shadow-lg"
+          >
             <PlusIcon size={20} />
             <span className="text-sm font-bold">Nuevo OKR</span>
-          </NavLink>}
+          </NavLink>
+        )}
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 px-[6px]">
+      <div className="flex-1 px-3">
         {/* Main Navigation */}
-        <div className="space-y-[2px] mb-6">
-          {!isCollapsed && <h3 className="sidebar-section-title px-[6px] mb-2">
+        <div className="space-y-1 mb-8">
+          {!isCollapsed && (
+            <h3 className="sidebar-section-title px-0 mb-3 text-xs font-semibold text-[#8A8A8A] uppercase tracking-wider">
               PRINCIPALES
-            </h3>}
-          {navigationItems.map(item => <div key={item.title} className="px-[6px]">
-              {isCollapsed ? <TooltipProvider>
+            </h3>
+          )}
+          {navigationItems.map(item => (
+            <div key={item.title}>
+              {isCollapsed ? (
+                <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <NavLink to={item.url} className={cn("flex items-center justify-center py-[4px] hover:bg-[#f0f0f0] rounded-md h-10 whitespace-nowrap overflow-hidden text-ellipsis", isActive(item.url) && "bg-[#f0f0f0]")}>
+                      <NavLink 
+                        to={item.url} 
+                        className={cn(
+                          "flex items-center justify-center h-10 hover:bg-[#f0f0f0] rounded-md transition-colors",
+                          isActive(item.url) && "bg-[#f0f0f0]"
+                        )}
+                      >
                         <item.icon size={20} className="text-gray-500" />
                       </NavLink>
                     </TooltipTrigger>
@@ -101,19 +118,30 @@ const AppSidebar = ({
                       <p>{item.title}</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider> : <NavLink to={item.url} className={cn("flex items-center gap-3 py-[4px] px-3 hover:bg-[#f0f0f0] rounded-md min-h-[36px] whitespace-nowrap overflow-hidden text-ellipsis", isActive(item.url) && "bg-[#f0f0f0]")}>
+                </TooltipProvider>
+              ) : (
+                <NavLink 
+                  to={item.url} 
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 hover:bg-[#f0f0f0] rounded-md transition-colors min-h-[40px]",
+                    isActive(item.url) && "bg-[#f0f0f0]"
+                  )}
+                >
                   <item.icon size={20} className="text-gray-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-[#404040] leading-none">{item.title}</span>
-                </NavLink>}
-            </div>)}
+                  <span className="text-sm font-medium text-[#404040]">{item.title}</span>
+                </NavLink>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Resources Section */}
-        <div className="space-y-[2px] mb-6">
-          {isCollapsed ? <TooltipProvider>
+        <div className="space-y-1 mb-8">
+          {isCollapsed ? (
+            <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="flex items-center justify-center py-[4px] hover:bg-[#f0f0f0] rounded-md h-10 whitespace-nowrap overflow-hidden text-ellipsis mx-[6px]">
+                  <div className="flex items-center justify-center h-10 hover:bg-[#f0f0f0] rounded-md transition-colors cursor-pointer">
                     <ToolboxIcon size={20} className="text-gray-500" />
                   </div>
                 </TooltipTrigger>
@@ -121,35 +149,59 @@ const AppSidebar = ({
                   <p>Recursos</p>
                 </TooltipContent>
               </Tooltip>
-            </TooltipProvider> : <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
+            </TooltipProvider>
+          ) : (
+            <Collapsible open={isToolsOpen} onOpenChange={setIsToolsOpen}>
               <CollapsibleTrigger asChild>
-                <div className="flex items-center gap-3 py-[4px] px-3 hover:bg-[#f0f0f0] rounded-md cursor-pointer min-h-[36px] whitespace-nowrap overflow-hidden text-ellipsis mx-[6px]">
+                <div className="flex items-center gap-3 px-3 py-2.5 hover:bg-[#f0f0f0] rounded-md cursor-pointer min-h-[40px] transition-colors">
                   <ToolboxIcon size={20} className="text-gray-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-[#404040] leading-none">Recursos</span>
-                  <ChevronDownIcon size={20} className={cn("ml-auto transition-transform text-[#404040] flex-shrink-0", isToolsOpen && "rotate-180")} />
+                  <span className="text-sm font-medium text-[#404040]">Recursos</span>
+                  <ChevronDownIcon 
+                    size={16} 
+                    className={cn("ml-auto transition-transform text-[#404040] flex-shrink-0", isToolsOpen && "rotate-180")} 
+                  />
                 </div>
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-[2px] ml-4">
-                 {resourcesItems.map(item => <div key={item.title} className="px-[6px]">
-                    <NavLink to={item.url} className={cn("flex items-center gap-3 py-[4px] px-3 hover:bg-[#f0f0f0] rounded-md min-h-[36px] whitespace-nowrap overflow-hidden text-ellipsis", isActive(item.url) && "bg-[#f0f0f0]")}>
-                      <item.icon size={20} className="text-gray-500 flex-shrink-0" />
-                      <span className="text-sm font-medium text-[#404040] leading-none">{item.title}</span>
+              <CollapsibleContent className="space-y-1 ml-6 mt-1">
+                {resourcesItems.map(item => (
+                  <div key={item.title}>
+                    <NavLink 
+                      to={item.url} 
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 hover:bg-[#f0f0f0] rounded-md transition-colors min-h-[36px]",
+                        isActive(item.url) && "bg-[#f0f0f0]"
+                      )}
+                    >
+                      <item.icon size={18} className="text-gray-500 flex-shrink-0" />
+                      <span className="text-sm font-medium text-[#404040]">{item.title}</span>
                     </NavLink>
-                  </div>)}
+                  </div>
+                ))}
               </CollapsibleContent>
-            </Collapsible>}
+            </Collapsible>
+          )}
         </div>
 
         {/* Settings Section */}
-        <div className="space-y-[2px]">
-          {!isCollapsed && <h3 className="sidebar-section-title px-[6px] mb-2">
+        <div className="space-y-1">
+          {!isCollapsed && (
+            <h3 className="sidebar-section-title px-0 mb-3 text-xs font-semibold text-[#8A8A8A] uppercase tracking-wider">
               CONFIGURACIÓN
-            </h3>}
-          {settingsItems.map(item => <div key={item.title} className="px-[6px]">
-              {isCollapsed ? <TooltipProvider>
+            </h3>
+          )}
+          {settingsItems.map(item => (
+            <div key={item.title}>
+              {isCollapsed ? (
+                <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <NavLink to={item.url} className={cn("flex items-center justify-center py-[4px] hover:bg-[#f0f0f0] rounded-md h-10 whitespace-nowrap overflow-hidden text-ellipsis", isActive(item.url) && "bg-[#f0f0f0]")}>
+                      <NavLink 
+                        to={item.url} 
+                        className={cn(
+                          "flex items-center justify-center h-10 hover:bg-[#f0f0f0] rounded-md transition-colors",
+                          isActive(item.url) && "bg-[#f0f0f0]"
+                        )}
+                      >
                         <item.icon size={20} className="text-gray-500" />
                       </NavLink>
                     </TooltipTrigger>
@@ -157,11 +209,21 @@ const AppSidebar = ({
                       <p>{item.title}</p>
                     </TooltipContent>
                   </Tooltip>
-                </TooltipProvider> : <NavLink to={item.url} className={cn("flex items-center gap-3 py-[4px] px-3 hover:bg-[#f0f0f0] rounded-md min-h-[36px] whitespace-nowrap overflow-hidden text-ellipsis", isActive(item.url) && "bg-[#f0f0f0]")}>
+                </TooltipProvider>
+              ) : (
+                <NavLink 
+                  to={item.url} 
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 hover:bg-[#f0f0f0] rounded-md transition-colors min-h-[40px]",
+                    isActive(item.url) && "bg-[#f0f0f0]"
+                  )}
+                >
                   <item.icon size={20} className="text-gray-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-[#404040] leading-none">{item.title}</span>
-                </NavLink>}
-            </div>)}
+                  <span className="text-sm font-medium text-[#404040]">{item.title}</span>
+                </NavLink>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
